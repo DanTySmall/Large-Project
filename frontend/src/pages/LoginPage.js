@@ -5,7 +5,7 @@ import '../main.css';
 import RegisterValidation from '../components/RegisterValidation';
 
 function LoginPage(){
-    const app_name = 'paradisepours-85b61313006b'
+    const app_name = 'paradise-pours-4be127640468'
     function buildPath(route)
     {
         if (process.env.NODE_ENV === 'production')
