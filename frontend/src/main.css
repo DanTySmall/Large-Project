@@ -828,3 +828,73 @@ input:checked + .slider:before {
 .liquor-box > h1{
   font-weight: bold;
 }
+
+.fav-button-conatiner-in-list{
+  position: relative;
+  width: 100%;
+}
+
+.fav-button-conatiner-in-list > button{
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0px;
+  font-size: 3.5rem;
+  left: 0;
+  margin-left: 35px;
+  height: auto;
+}
+
+.fav-button-container{
+  width: 50%;
+  height: 50%;
+  left: 25%;
+  bottom: 0;
+  position: absolute;
+}
+
+.fav-button{
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0px;
+  font-size: 3.5rem;
+  color: rgb(240, 8, 8);
+}
+
+.fav-button:hover{
+  opacity: 0.5;
+}
+
+.ratings-button{
+  display: block;
+  padding: 15px;
+  font-size: 18px;
+  color: #fff;
+  background-color: #ff9800;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 90%;
+  left: 5%;
+  position: absolute;
+}
+
+.ratings-button:hover{
+  text-decoration: underline;
+  font-weight: bold;
+  background-color: #e68900;
+}
+
+.average-rating-container{
+  width: 100%;
+}
+
+.ratings-info {
+  text-align: center;
+  height: 100%;
+  max-width: 100%;
+  position: relative;
+  overflow-y: scroll;
+}

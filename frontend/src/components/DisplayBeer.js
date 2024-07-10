@@ -1,17 +1,28 @@
-import React from 'react'; 
+import React, {useState, useEffect} from 'react';
+import NutritionFacts from './NutritionFacts.js';
+import Ratings from './Ratings.js';
 
 const DisplayBeer = ({beer}) => {
+    const [showRatings, setShowRatings] = useState(false);
+
+    useEffect(() => {
+        setShowRatings(false);
+    }, [beer]);
+
+    const switchComp = () => {
+        setShowRatings(!showRatings);
+    };
+
+    // Determine which component to display based on showRatings state
+    const compToDisplay = showRatings ? (
+        <Ratings switchComp={switchComp} beerToDisplay = {beer} />
+    ) : (
+        <NutritionFacts switchComp={switchComp} beerToDisplay = {beer}/>
+    );
+
     return(
         <div class = "display-beer">
-            <h1>{beer.Name}</h1>
-            <div class = "beer-info">
-                <h1 class = "beer-info-header">Company: </h1> <p>{beer.Company}</p>
-                <h1 class = "beer-info-header">Style:</h1> <p>{beer.Style}</p>
-                <h1 class = "beer-info-header">ABV:</h1> <p>{beer.ABV}</p>
-                <h1 class = "beer-info-header">Calories:</h1> <p>{beer.Calories}</p>
-                <h1 class = "beer-info-header">Origin:</h1> <p>{beer.Origin}</p>
-                <h1 class = "beer-info-header">Favorite:</h1><p><button className="fav-icon">{beer.Favorite ? <i className = "bi bi-heart-fill fav-icon"></i> : <i className = "bi bi-heart fav-icon"></i>}</button></p>
-            </div>
+            {compToDisplay}
         </div>
     );
 }
