@@ -5,12 +5,26 @@ import AboutUsHeader from '../components/AboutUsHeader';
 import '../main.css';
 
 const ChangePasswordPage = () =>{
+    const app_name = 'paradise-pours-4be127640468'
+    function buildPath(route)
+    {
+        if (process.env.NODE_ENV === 'production')
+        {
+            return 'https://' + app_name + '.herokuapp.com/' + route;
+        }
+        else
+        {
+            return 'http://localhost:5000/' + route;
+        }
+    }
+
     const {uniqueString} = useParams()
     const [newPassword, setNewPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
 
     const handleSubmit = async() =>{
-        const response = await axios.post(`http://localhost:5000/api/changePassword/${uniqueString}`, {
+        //const response = await axios.post(`http://localhost:5000/api/changePassword/${uniqueString}`, {
+        const response = await axios.post(buildPath(`api/changePassword/${uniqueString}`), {
             newPassword: newPassword,
             confirmPassword: confirmPassword
         })

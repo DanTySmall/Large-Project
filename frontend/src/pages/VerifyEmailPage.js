@@ -4,13 +4,27 @@ import { useParams } from 'react-router-dom';
 import '../main.css';
 
 const VerifyEmailPage = () =>{
+    const app_name = 'paradise-pours-4be127640468'
+    function buildPath(route)
+    {
+        if (process.env.NODE_ENV === 'production')
+        {
+            return 'https://' + app_name + '.herokuapp.com/' + route;
+        }
+        else
+        {
+            return 'http://localhost:5000/' + route;
+        }
+    }
+
     const {uniqueString} = useParams()
 
     useEffect(() => {
         const verifyEmail = async() => {
             try{
                 console.log(uniqueString)
-                const response = await axios.get(`http://localhost:5000/api/verify/${uniqueString}`)
+                //const response = await axios.get(`http://localhost:5000/api/verify/${uniqueString}`)
+                const response = await axios.get(buildPath(`spi/verify/${uniqueString}`))
                 console.log(response.data)
                 if(response.status === 200){
                     console.log('Response:', response.data.Message);    

@@ -8,6 +8,20 @@ import DisplayBeer from './DisplayBeer.js';
 
 
 const BeerList = ({switchComponents}) => {
+
+    const app_name = 'paradise-pours-4be127640468'
+    function buildPath(route)
+    {
+        if (process.env.NODE_ENV === 'production')
+        {
+            return 'https://' + app_name + '.herokuapp.com/' + route;
+        }
+        else
+        {
+            return 'http://localhost:5000/' + route;
+        }
+    }
+
     const [beers, setBeers] = useState([]);
     const [selectedBeer, setSelectedBeer] = useState(null);
     const [showDisplayBeer, setShowDisplayBeer] = useState(false);
@@ -19,7 +33,8 @@ const BeerList = ({switchComponents}) => {
     useEffect(() => {
         async function fetchAllBeers(){
             try {
-                const response = await axios.get('http://localhost:5000/api/getAllBeers');
+                //const response = await axios.get('http://localhost:5000/api/getAllBeers');
+                const response = await axios.get(buildPath('api/getAllBeers'));
                 let beersData = response.data.beers;
                 beersData.sort((a, b) => a.Name.localeCompare(b.Name));
                 setBeers(beersData);
@@ -47,7 +62,7 @@ const BeerList = ({switchComponents}) => {
     }
 
     const handleFocus = () => {
-        if(text == ''){
+        if(text === ''){
             document.getElementById('beer-search-bar').value = '';
         }
     }
@@ -56,7 +71,8 @@ const BeerList = ({switchComponents}) => {
         document.getElementById('beer-search-bar').value = 'Search';
 
         try{
-            const resp = await axios.post('http://localhost:5000/api/searchBeer', {
+            //const resp = await axios.post('http://localhost:5000/api/searchBeer', {
+            const resp = await axios.post(buildPath('api/searchBeer'), {
                 Name: text
             }, {
                 headers: {

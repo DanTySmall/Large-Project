@@ -4,6 +4,18 @@ import AboutUsHeader from '../components/AboutUsHeader';
 import '../main.css';
 
 const ForgotPassPage = () =>{
+    const app_name = 'paradise-pours-4be127640468'
+    function buildPath(route)
+    {
+        if (process.env.NODE_ENV === 'production')
+        {
+            return 'https://' + app_name + '.herokuapp.com/' + route;
+        }
+        else
+        {
+            return 'http://localhost:5000/' + route;
+        }
+    }
     const [email, setEmail] = useState('');
 
     const handleSubmit = async(event) =>{
@@ -21,7 +33,8 @@ const ForgotPassPage = () =>{
         }
 
         try {
-            const response = await axios.post('http://localhost:5000/api/recoverAccount', { Email: email });
+            //const response = await axios.post('http://localhost:5000/api/recoverAccount', { Email: email });
+            const response = await axios.post(buildPath('api/recoverAccount'), { Email: email });
 
             if (response.status === 200) {
                 console.log('Response:', response.data.Message);

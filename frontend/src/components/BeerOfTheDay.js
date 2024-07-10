@@ -6,6 +6,18 @@ import BeerMugsRight from '../images/beer-mugs-right.png';
 import FavButton from './FavButton.js';
 
 const BeerOfTheDay = ({switchComponents}) => {
+    const app_name = 'paradise-pours-4be127640468'
+    function buildPath(route)
+    {
+        if (process.env.NODE_ENV === 'production')
+        {
+            return 'https://' + app_name + '.herokuapp.com/' + route;
+        }
+        else
+        {
+            return 'http://localhost:5000/' + route;
+        }
+    }
 
     const [officialBeerOfTheDay, setOfficialBeerOfTheDay] = useState(null);
 
@@ -13,7 +25,8 @@ const BeerOfTheDay = ({switchComponents}) => {
         // Function to fetch all beers and set beer of the day
         async function fetchAllBeersAndSetBeerOfTheDay() {
             try {
-                const response = await axios.get('http://localhost:5000/api/getAllBeers');
+                //const response = await axios.get('http://localhost:5000/api/getAllBeers');
+                const response = await axios.get(buildPath('api/getAllBeers'));
                 const beers = response.data.beers;
 
                 // Check local storage for saved beer of the day

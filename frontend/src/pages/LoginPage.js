@@ -5,6 +5,18 @@ import '../main.css';
 import RegisterValidation from '../components/RegisterValidation';
 
 function LoginPage(){
+    const app_name = 'paradise-pours-4be127640468'
+    function buildPath(route)
+    {
+        if (process.env.NODE_ENV === 'production')
+        {
+            return 'https://' + app_name + '.herokuapp.com/' + route;
+        }
+        else
+        {
+            return 'http://localhost:5000/' + route;
+        }
+    }
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -57,7 +69,8 @@ function LoginPage(){
         }
 
         try{
-            const resp = await axios.post('http://localhost:5000/api/login', {
+            //const resp = await axios.post('http://localhost:5000/api/login', {
+            const resp = await axios.post(buildPath('api/login'), {
                 Username: formData.Username,
                 Password: formData.Password
             }, {
@@ -91,7 +104,8 @@ function LoginPage(){
             missFielderrorElement.style.display = 'none';
         }
 
-        const resp = await axios.post('http://localhost:5000/api/register', {
+        //const resp = await axios.post('http://localhost:5000/api/register', {
+        const resp = await axios.post(buildPath('api/register'), {
             FirstName: formData.FirstName,
             LastName: formData.LastName, 
             Email: formData.Email, 
@@ -144,7 +158,7 @@ function LoginPage(){
             <div className="loginContent">
                 <LoginHeader />
                 <div className="welcome-message">
-                    Welcome to Paradise Pours - Your Ultimate Alcohol Database!
+                    Welcome to Paradise Pours - Your Ultimate Alcohol Atlas!
                 </div>
                 <div className={`login-box ${isLogin ? '' : 'register'}`}>
                     <div className="toggle-container">
