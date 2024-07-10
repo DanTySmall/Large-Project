@@ -158,7 +158,7 @@ function LoginPage(){
             <div className="loginContent">
                 <LoginHeader />
                 <div className="welcome-message">
-                    Welcome to Paradise Pours - Your Ultimate Alcohol Database!
+                    Welcome to Paradise Pours - Your Ultimate Alcohol Atlas!
                 </div>
                 <div className={`login-box ${isLogin ? '' : 'register'}`}>
                     <div className="toggle-container">
