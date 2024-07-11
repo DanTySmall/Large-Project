@@ -32,7 +32,7 @@ const sendMail = (Email, uniqueString, flag) => {
             from: 'noreply@domain.com',  //Change later   
             to: Email,
             subject: "Email Confirmation",
-            html: `Press <a href=https://paradise-pours-4be127640468.herokuapp.com//verify/${uniqueString}> here </a> to verify your email.` //Links to the api/verify
+            html: `Press <a href=https://paradise-pours-4be127640468.herokuapp.com/verify/${uniqueString}> here </a> to verify your email.` //Links to the api/verify
         }    
     }
     else{
@@ -40,7 +40,7 @@ const sendMail = (Email, uniqueString, flag) => {
             from: 'noreply@domain.com',  //Change later   
             to: Email,
             subject: "Change Password",
-            html: `Press <a href=https://paradise-pours-4be127640468.herokuapp.com//changePassword/${uniqueString}> here </a> to change your password.` //Links to the api/changePassword
+            html: `Press <a href=https://paradise-pours-4be127640468.herokuapp.com/changePassword/${uniqueString}> here </a> to change your password.` //Links to the api/changePassword
         }      
     }
 
