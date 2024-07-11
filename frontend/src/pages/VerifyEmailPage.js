@@ -24,7 +24,7 @@ const VerifyEmailPage = () =>{
             try{
                 console.log(uniqueString)
                 //const response = await axios.get(`http://localhost:5000/api/verify/${uniqueString}`)
-                const response = await axios.get(buildPath(`spi/verify/${uniqueString}`))
+                const response = await axios.get(buildPath(`api/verify/${uniqueString}`))
                 console.log(response.data)
                 if(response.status === 200){
                     console.log('Response:', response.data.Message);    
