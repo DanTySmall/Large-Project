@@ -103,7 +103,7 @@ router.post('/rateBeer', async(req, res) => {
 router.get('/beerRatings', async(req, res) => {
     const db = getClient().db('AlcoholDatabase')
     const {_id} = req.body
-    const BeerId = new ObjectId(_id)
+    const BeerId = ObjectId.createFromHexString(_id)
 
     const result = await db.collection('Beer').aggregate([ //Using MongoDB aggregation, able to filter document to avg and only display ratings.
         {$match: {_id: BeerId}},
