@@ -280,7 +280,6 @@
     width: 100%;
     font-size: 48px;
     flex-shrink: 1;
-    overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
@@ -373,6 +372,48 @@
   
   .search-back-button:hover {
     background-color: #e68900;
+  }
+
+  .comment-container {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    left: 5%;
+    position: relative;
+    margin-top: 5%;
+    margin-bottom: 5%;
+  }
+
+  .comment-bar {
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 10px 15px;
+    border-radius: 50px;
+    font-size: 16px;
+  }
+  
+  .comment-bar::placeholder {
+    color: #ccc;
+  }
+  
+  .comment-button i {
+    font-size: 24px;
+  }
+  
+  .comment-button{
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: #333;
+    padding: 10px;
+    padding-right: 15px;
+    margin-left: 5px;
   }
 
   /* Media Queries */
