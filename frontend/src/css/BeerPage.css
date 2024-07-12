@@ -417,6 +417,71 @@
   }
 
   /* Media Queries */
+  @media (max-width: 480px) {
+    .beer-page {
+        height: auto; /* Maintain height auto */
+        padding: 10px; /* Adjust padding for mobile screens */
+    }
+    .beer-of-the-day {
+        width: 90%; /* Adjust width for mobile screens */
+    }
+}
+
+@media (max-width: 768px) {
+  .beer-page {
+      height: auto; /* Maintain height auto */
+      padding: 15px; /* Adjust padding for smaller screens */
+  }
+  .beer-of-the-day {
+      width: 80%; /* Adjust width for smaller screens */
+  }
+}
+
+@media (max-width: 1024px) {
+  .beer-page {
+      height: auto; /* Maintain height auto */
+      padding: 20px;
+  }
+  .beer-of-the-day {
+      width: 70%; /* Adjust width for smaller screens */
+  }
+}
+
+@media (max-width: 1200px) {
+  .beer-page {
+      height: 850px; /* Change height to auto for smaller screens */
+  }
+  .beer-of-the-day {
+      height: fit-content;
+      width: 70%;
+      right: 3%;
+  }
+  .beer-list{
+      height: 700px;
+      width: 70%;
+      right: 3%;
+  }
+}
+
+@media (min-width: 1200px){
+  .beer-of-the-day {
+      height: 700px;
+      width: 60%; /* Adjust width for smaller screens */
+      right: 5%;
+  }
+  .botd-content{
+      padding-top: 10px;
+  }
+  .beer-list {
+      height: 700px;
+      width: 60%; /* Adjust width for smaller screens */
+      right: 5%;
+  }
+  .beer-page {
+      height: 900px; /* Change height to auto for smaller screens */
+  }
+}
+
   @media (min-width: 1440px){
     .beer-of-the-day {
         height: 800px;
@@ -433,70 +498,5 @@
     }
     .beer-page {
         height: 1250px; /* Change height to auto for smaller screens */
-    }
-}
-
-@media (max-width: 1200px) {
-    .beer-page {
-        height: 850px; /* Change height to auto for smaller screens */
-    }
-    .beer-of-the-day {
-        height: fit-content;
-        width: 70%;
-        right: 3%;
-    }
-    .beer-list{
-        height: 700px;
-        width: 70%;
-        right: 3%;
-    }
-}
-@media (min-width: 1200px){
-    .beer-of-the-day {
-        height: 700px;
-        width: 60%; /* Adjust width for smaller screens */
-        right: 5%;
-    }
-    .botd-content{
-        padding-top: 10px;
-    }
-    .beer-list {
-        height: 700px;
-        width: 60%; /* Adjust width for smaller screens */
-        right: 5%;
-    }
-    .beer-page {
-        height: 900px; /* Change height to auto for smaller screens */
-    }
-}
-
-
-@media (max-width: 1024px) {
-    .beer-page {
-        height: auto; /* Maintain height auto */
-        padding: 20px;
-    }
-    .beer-of-the-day {
-        width: 70%; /* Adjust width for smaller screens */
-    }
-}
-
-@media (max-width: 768px) {
-    .beer-page {
-        height: auto; /* Maintain height auto */
-        padding: 15px; /* Adjust padding for smaller screens */
-    }
-    .beer-of-the-day {
-        width: 80%; /* Adjust width for smaller screens */
-    }
-}
-
-@media (max-width: 480px) {
-    .beer-page {
-        height: auto; /* Maintain height auto */
-        padding: 10px; /* Adjust padding for mobile screens */
-    }
-    .beer-of-the-day {
-        width: 90%; /* Adjust width for mobile screens */
     }
 }
