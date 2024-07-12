@@ -21,7 +21,7 @@ const DisplayBeer = ({beer}) => {
     );
 
     return(
-        <div class = "display-beer">
+        <div className = "display-beer">
             {compToDisplay}
         </div>
     );
