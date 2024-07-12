@@ -51,6 +51,7 @@ function LoginPage(){
         event.preventDefault(); // Prevent form from submitting
         const errorElement = document.getElementById('error');
         const missFielderrorElement = document.getElementById('miss-field-error');
+        const notVerifiedError = document.getElementById('notVerifiedError');
 
         if (!validateForm()) {
             missFielderrorElement.style.display = 'block';
@@ -85,17 +86,26 @@ function LoginPage(){
             setLastLoginAttempt(true);
         }
         catch(error){
-            console.log("Login failed...");
-            setLastLoginAttempt(false);
-            errorElement.style.display = 'block';
-            missFielderrorElement.style.display = 'none';
-            return;
+            if(error.response.status === 401){
+                console.log("Account has not been verified");
+                notVerifiedError.style.display = 'block';
+                errorElement.style.display = 'none';
+                missFielderrorElement.style.display = 'none';
+            }else if(error.response.status === 404){
+                console.log("Login failed...");
+                setLastLoginAttempt(false);
+                errorElement.style.display = 'block';
+                missFielderrorElement.style.display = 'none';
+                notVerifiedError.style.display = 'none';
+            }
         }
     }
 
     async function registerButtonHandler(event){
         event.preventDefault(); // Prevent form from submitting
         const missFielderrorElement = document.getElementById('miss-field-error');
+        const usernameErrorElement = document.getElementById('usernameError');
+        const emailErrorElement = document.getElementById('emailError');
 
         if (!validateForm()) {
             missFielderrorElement.style.display = 'block';
@@ -104,29 +114,46 @@ function LoginPage(){
             missFielderrorElement.style.display = 'none';
         }
 
-        //const resp = await axios.post('http://localhost:5000/api/register', {
-        const resp = await axios.post(buildPath('api/register'), {
+        try{
+            //const resp = await axios.post('http://localhost:5000/api/register', {
+            const resp = await axios.post(buildPath('api/register'), {
             FirstName: formData.FirstName,
             LastName: formData.LastName, 
             Email: formData.Email, 
             Phone: formData.Phone,
             Username: formData.Username,
             Password: formData.Password
-        }, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
 
-        console.log(resp);
-
-        if(resp.status === 201){
+            console.log(resp);
             console.log("User Registered: ", resp);
             window.location.href = '/';
         }
-        else{
-            console.log("Sign up failed...");
+        catch(error){
+            if(error.response.status === 409){
+                const errorMessage = error.response.data.error;
+                if(errorMessage === 'Username already exists'){
+                    console.log("Username already exists");
+                    usernameErrorElement.style.display = 'block';
+                    emailErrorElement.style.display = 'none';
+                }else if(errorMessage === 'Email already exists'){
+                    console.log("Email already exists");
+                    emailErrorElement.style.display = 'block';
+                    usernameErrorElement.style.display = 'none';
+                }
+            }
+            else{
+                console.log("Registration failed...");
+                missFielderrorElement.style.display = 'none';
+                usernameErrorElement.style.display = 'none';
+                emailErrorElement.style.display = 'none';
+            }
         }
+        
     }
 
     const handleToggle = () => {
@@ -203,6 +230,9 @@ function LoginPage(){
                     
                     <div id="miss-field-error" className="login-error">{errorMessage}</div>
                     <div id="error" className="login-error">Incorrect username or password<br></br>Please try again!!</div>
+                    <div id="notVerifiedError" className="login-error">This account has not been verified!<br></br>Please check your email!!</div>
+                    <div id="usernameError" className="login-error">Username already in use!<br></br>Please try another!!</div>
+                    <div id="emailError" className="login-error">Email already used!<br></br>Please try another!!</div>
                     <a href="/forgotPass" className="forgot-password">{isLogin ? "Forgot Password?" : ""}</a>
 
                     {/* Username Criteria */}
