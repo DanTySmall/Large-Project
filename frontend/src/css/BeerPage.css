@@ -417,6 +417,25 @@
   }
 
   /* Media Queries */
+  @media (min-width: 1440px){
+    .beer-of-the-day {
+        height: 800px;
+        width: 60%; /* Adjust width for smaller screens */
+        right: 5%;
+    }
+    .botd-content{
+        padding-top: 10px;
+    }
+    .beer-list {
+        height: 700px;
+        width: 60%; /* Adjust width for smaller screens */
+        right: 5%;
+    }
+    .beer-page {
+        height: 1250px; /* Change height to auto for smaller screens */
+    }
+}
+
 @media (max-width: 1200px) {
     .beer-page {
         height: 850px; /* Change height to auto for smaller screens */
