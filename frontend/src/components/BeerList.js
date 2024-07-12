@@ -1,10 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import '../main.css';
 import '../css/BeerPage.css';
 import BeerMugsLeft from '../images/beer-mugs-left.png';
 import BeerMugsRight from '../images/beer-mugs-right.png';
 import axios from 'axios';
 import DisplayBeer from './DisplayBeer.js';
+import { UserContext } from './userProvider';
 
 
 const BeerList = ({switchComponents}) => {
@@ -22,6 +23,7 @@ const BeerList = ({switchComponents}) => {
         }
     }
 
+    const { userID } = useContext(UserContext);
     const [beers, setBeers] = useState([]);
     const [selectedBeer, setSelectedBeer] = useState(null);
     const [showDisplayBeer, setShowDisplayBeer] = useState(false);
@@ -103,7 +105,7 @@ const BeerList = ({switchComponents}) => {
 
     async function fetchAllBeers(){
         try {
-            const response = await axios.get('http://localhost:5000/api/getAllBeers');
+            const response = await axios.get(buildPath('api/getAllBeers'));
             let beersData = response.data.beers;
             return beersData;
         }
@@ -119,11 +121,16 @@ const BeerList = ({switchComponents}) => {
             //Change when we get the function to
             //return the beers that the user has favorited
             if (filterSelection === "fav") {
+                setShowDisplayBeer(false);
+                const FavBeerFilter = allBeers.filter(beer => beer.Favorites && beer.Favorites.some(user => user === userID || user.UserId === userID));
+                setValidSearch(true);
+                setSearchResults([]);
+                setSearchResults(FavBeerFilter);
 
             }
             else if (filterSelection === "IPAs") {
                 setShowDisplayBeer(false);
-                const IPAsBeerFilter = allBeers.filter(beer => (beer.ABV >= 5.0) && (beer.ABV <= 7.5));
+                const IPAsBeerFilter = allBeers.filter(beer => (beer.Style === 'IPA') && ((beer.ABV >= 5.0) && (beer.ABV <= 7.5)));
                 setValidSearch(true);
                 setSearchResults([]);
                 setSearchResults(IPAsBeerFilter);

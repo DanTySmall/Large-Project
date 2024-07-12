@@ -1,18 +1,35 @@
 import '../main.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import { UserContext } from './userProvider';
 
 const FavButton = ({currentBeer}) =>{
+    const app_name = 'paradise-pours-4be127640468'
+    function buildPath(route)
+    {
+        if (process.env.NODE_ENV === 'production')
+        {
+            return 'https://' + app_name + '.herokuapp.com/' + route;
+        }
+        else
+        {
+            return 'http://localhost:5000/' + route;
+        }
+    }
+    
+    const { userID } = useContext(UserContext);
     const [favBoolean, setFavBoolean] = useState(false);
 
     useEffect(() => {
-        checkFav();
-    }, [currentBeer]);
+        if (userID) {
+            checkFav();
+        }
+    }, [currentBeer, userID]);
 
     async function checkFav(){
         if(currentBeer?.Favorites?.length > 0){
             //Change to compare the id to the current user (6 = Connor's User ID)
-            if((currentBeer.Favorites.some(user => user._id === 6))){
+            if((currentBeer.Favorites.some(user => user === userID || user?.UserId === userID))){
                 setFavBoolean(true);
             }
             else{
@@ -34,12 +51,14 @@ const FavButton = ({currentBeer}) =>{
 
     async function unfavBeer(){
         try{
-            const beer = await axios.post('http://localhost:5000/api/unfavoriteBeer', {
-                _id: currentBeer._id,
-                UserId: 6
-            });
+            if (currentBeer.Favorites.includes(userID) || currentBeer.Favorites.some(user => user?.UserId === userID)) {
+                await axios.post(buildPath('api/unfavoriteBeer'), {
+                    _id: currentBeer._id,
+                    UserId: userID
+                });
 
-            setFavBoolean(false);
+                setFavBoolean(false);
+            }
         }
         catch(error){
             console.log("Error while un-favoriting");
@@ -48,21 +67,14 @@ const FavButton = ({currentBeer}) =>{
 
     async function favBeer(){
         try{
-            const beerName = currentBeer.Name;
-            const beer = await axios.post('http://localhost:5000/api/favoriteBeer', {
-                _id: currentBeer._id,
-                UserId: 6
-            });
+            if (!currentBeer.Favorites.includes(userID) && !currentBeer.Favorites.some(user => user?.UserId === userID)) {
+                await axios.post(buildPath('api/favoriteBeer'), {
+                    _id: currentBeer._id,
+                    UserId: userID
+                });
 
-            const resp = await axios.post('http://localhost:5000/api/searchBeer', {
-                Name: beerName
-            }, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            setFavBoolean(true);
+                setFavBoolean(true);
+            }
         }
         catch(error){
             console.log("Error while favoriting");
@@ -70,7 +82,7 @@ const FavButton = ({currentBeer}) =>{
     }
 
     return(
-        <button className = "fav-button" onClick = {changeFav}>{favBoolean ? <i class="bi bi-heart-fill"></i> : <i className = "bi bi-heart"></i>}</button>
+        <button className = "fav-button" onClick = {changeFav}>{favBoolean ? <i className="bi bi-heart-fill"></i> : <i className = "bi bi-heart"></i>}</button>
     )
 }
 

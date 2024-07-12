@@ -82,6 +82,11 @@ function LoginPage(){
 
             console.log(resp);
             console.log("Login Successful: ", resp);
+
+            const user = resp.data;
+            const userId = user.user.UserId;
+            localStorage.setItem('userID', userId);
+
             window.location.href = '/homepage';
             setLastLoginAttempt(true);
         }
