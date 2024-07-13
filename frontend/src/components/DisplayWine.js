@@ -1,14 +1,14 @@
 import React, {useState, useEffect} from 'react';
-import BeerNutritionFacts from './BeerNutritionFacts.js';
+import WineNutritionFacts from './WineNutritionFacts.js';
 import Ratings from './Ratings.js';
-import '../css/BeerPage.css'
+import '../css/WinePage.css';
 
-const DisplayBeer = ({beer}) => {
+const DisplayWine = ({wine}) => {
     const [showRatings, setShowRatings] = useState(false);
 
     useEffect(() => {
         setShowRatings(false);
-    }, [beer]);
+    }, [wine]);
 
     const switchComp = () => {
         setShowRatings(!showRatings);
@@ -16,16 +16,16 @@ const DisplayBeer = ({beer}) => {
 
     // Determine which component to display based on showRatings state
     const compToDisplay = showRatings ? (
-        <Ratings switchComp={switchComp} beerToDisplay = {beer} />
+        <Ratings switchComp={switchComp} wineToDisplay = {wine} />
     ) : (
-        <BeerNutritionFacts switchComp={switchComp} beerToDisplay = {beer}/>
+        <WineNutritionFacts switchComp={switchComp} wineToDisplay = {wine}/>
     );
 
     return(
-        <div className = "display-beer">
+        <div className = "display-wine">
             {compToDisplay}
         </div>
     );
 }
 
-export default DisplayBeer;
+export default DisplayWine;
