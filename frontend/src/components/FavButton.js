@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { UserContext } from './userProvider';
 
-const FavButton = ({currentBeer}) =>{
+const FavButton = ({drink}) =>{
     const app_name = 'paradise-pours-4be127640468'
     function buildPath(route)
     {
@@ -21,15 +21,15 @@ const FavButton = ({currentBeer}) =>{
     const [favBoolean, setFavBoolean] = useState(false);
 
     useEffect(() => {
-        if (userID && currentBeer) {
+        if (userID && drink) {
             checkFav();
         }
     });
 
     async function checkFav(){
-        if(currentBeer?.Favorites?.length > 0){
+        if(drink?.Favorites?.length > 0){
             //Change to compare the id to the current user (6 = Connor's User ID)
-            if(currentBeer.Favorites.some(user => user === userID || user?.UserId === userID)){
+            if(drink.Favorites.some(user => user === userID || user?.UserId === userID)){
                 setFavBoolean(true);
             }
             else{
@@ -52,9 +52,9 @@ const FavButton = ({currentBeer}) =>{
 
     async function unfavBeer(){
         try{
-            if (currentBeer.Favorites.includes(userID) || currentBeer.Favorites.some(user => user?.UserId === userID)) {
+            if (drink.Favorites.includes(userID) || drink.Favorites.some(user => user?.UserId === userID)) {
                 await axios.post(buildPath('api/unfavoriteBeer'), {
-                    _id: currentBeer._id,
+                    _id: drink._id,
                     UserId: userID
                 });
 
@@ -68,9 +68,9 @@ const FavButton = ({currentBeer}) =>{
 
     async function favBeer(){
         try{
-            if (!currentBeer.Favorites.includes(userID) && !currentBeer.Favorites.some(user => user?.UserId === userID)) {
+            if (!drink.Favorites.includes(userID) && !drink.Favorites.some(user => user?.UserId === userID)) {
                 await axios.post(buildPath('api/favoriteBeer'), {
-                    _id: currentBeer._id,
+                    _id: drink._id,
                     UserId: userID
                 });
 
