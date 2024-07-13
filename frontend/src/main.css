@@ -36,7 +36,6 @@
   
   .menu-button:hover{
     text-decoration: underline;
-    /* color: #a0522d; */
     color: #e3d61e;
   }
 
@@ -65,7 +64,6 @@
   
   .wine-menu-button:hover{
     text-decoration: underline;
-    /* color: #a0522d; */
     color: #b01e4c;
   }
 
@@ -106,7 +104,6 @@
   
   .login-menu-button:hover{
     text-decoration: underline;
-    /* color: #a0522d; */
     color: #913704;
   }
 
@@ -127,7 +124,6 @@
     flex-direction: column;
     position: relative;
     height: 1075px;
-    /*background-image: url('./images/Bar_pic.jpeg');*/
     background-image: url('./images/BlankBackgroundImage.jpg');
     background-size: cover; 
     background-repeat: no-repeat;
@@ -435,12 +431,7 @@ input:checked + .slider:before {
   }
 }
 
-.wine-page{
-  background-image: url('./images/wine2.jpg');
-  background-size: cover;
-  background-position: center;
-  height: 100vh;
-}
+
 
 .wine-box{
   position: absolute;
@@ -476,93 +467,6 @@ input:checked + .slider:before {
 
 .beer-icon {
   margin-right: 5px;
-}
-
-.beer-list{
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  background-color: rgb(255, 255, 255, 0.75);
-  border: 10px solid #ebc713;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 48%;
-  top: 15%;
-  right: 10%;
-  bottom: 8%;
-}
-
-.beer-list-header {
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 0px;
-  font-size: 36px;
-}
-
-.beer-list > div{
-  position: relative;
-  display: flex;
-  align-items: center;
-  margin: 0px;
-  font-size: 36px;
-}
-
-.beer-list > div > h1{
-  justify-content: space-between;
-  padding-top: 15px;
-  padding-bottom: 5px;
-  margin: 0px;
-  font-size: 36px;
-}
-
-.beer-list > div> img{
-  top: 0;
-  margin: 0px;
-  width: 20%;
-}
-
-.beer-list-content {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  flex-grow: 1;
-  padding: 10px 0px 10px 0px;
-  overflow: hidden;
-}
-
-.sorted-list{
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.list-item{
-  padding: 10px 15px;
-  margin: 5px 0;
-  background-color: #f5f5f5;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
-  display: flex;
-  align-items: center;
-  font-size: 18px;
-  color: #333;
-  font-family: 'Roboto', sans-serif;
-}
-
-.list-item:hover{
-  font-weight: bold; 
-  background-color: #ff9800;
-  color: #fff;
-  transform: translateY(-2px);
-}
-
-.list-item::before {
-  content: "\1F37A"; /* Unicode for a beer mug emoji */
-  margin-right: 10px;
-  font-size: 20px;
 }
 
 .search-and-filter{
@@ -909,7 +813,6 @@ input:checked + .slider:before {
   height: 100%;
   background-color: #ff9800;
   opacity: 75%;
-  /* border-radius: 6px; */
   border: none;
   cursor: pointer;
   display: flex;
@@ -926,4 +829,20 @@ input:checked + .slider:before {
 .right-arrow {
   position: absolute;
   justify-self: center;
+}
+
+.nutrition-item {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  margin: 10px;
+  align-items: center;
+  max-width: 100%; 
+}
+
+.nutrition-item p {
+  margin: 0;
+  font-size: 20px; 
+  color: #333; 
+  flex: 0 0 auto;
 }
