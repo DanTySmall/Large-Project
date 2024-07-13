@@ -219,8 +219,8 @@
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    width: 50%;
-    padding: 10px;
+    width: 46%;
+    padding: 0px 10px 0px 10px;
     border-radius: 10px;
   }
   
@@ -258,7 +258,7 @@
   }
   
   .display-beer {
-    padding-left: 25px;
+    padding-left: 5px;
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -278,17 +278,20 @@
     margin: 0px;
     max-height: 25%;
     width: 100%;
-    font-size: 48px;
+    font-size: 35px;
     flex-shrink: 1;
     text-overflow: ellipsis;
-    white-space: nowrap;
+    white-space: normal;
+    text-align: center;
   }
   
   .beer-info {
     height: 100%;
     max-width: 100%;
     position: relative;
-    overflow-y: scroll;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    margin-top: 25px;
   }
   
   .beer-info > p {
@@ -297,10 +300,26 @@
   }
   
   .beer-info-header {
-    margin: 5px;
-    font-size: 30px;
+    margin: 0px;
+    font-size: 24px;
   }
-  
+
+  .nutrition-item {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    margin: 10px;
+    align-items: center;
+    width: 90%; 
+}
+
+.nutrition-item p {
+  margin: 0;
+  font-size: 20px; 
+  color: #333; 
+  flex: 0 0 auto;
+}
+ 
   .search-and-filter{
     display: flex;
     flex-direction: row;
