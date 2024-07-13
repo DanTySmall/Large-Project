@@ -21,15 +21,15 @@ const FavButton = ({currentBeer}) =>{
     const [favBoolean, setFavBoolean] = useState(false);
 
     useEffect(() => {
-        if (userID) {
+        if (userID && currentBeer) {
             checkFav();
         }
-    }, [currentBeer, userID]);
+    });
 
     async function checkFav(){
         if(currentBeer?.Favorites?.length > 0){
             //Change to compare the id to the current user (6 = Connor's User ID)
-            if((currentBeer.Favorites.some(user => user === userID || user?.UserId === userID))){
+            if(currentBeer.Favorites.some(user => user === userID || user?.UserId === userID)){
                 setFavBoolean(true);
             }
             else{
@@ -47,6 +47,7 @@ const FavButton = ({currentBeer}) =>{
         } else {
             favBeer();
         }
+        await checkFav();
     };
 
     async function unfavBeer(){
@@ -61,7 +62,7 @@ const FavButton = ({currentBeer}) =>{
             }
         }
         catch(error){
-            console.log("Error while un-favoriting");
+            console.log("Error while un-favoriting", error);
         }
     }
 
@@ -77,7 +78,7 @@ const FavButton = ({currentBeer}) =>{
             }
         }
         catch(error){
-            console.log("Error while favoriting");
+            console.log("Error while favoriting", error);
         }
     }
 

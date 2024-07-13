@@ -98,7 +98,7 @@ const BeerOfTheDay = ({switchComponents}) => {
 
                             <div className="grid-item"><h1 className = "grid-header">Origin:</h1><br />{officialBeerOfTheDay.Origin}</div>
 
-                            <div className="grid-item"><h1 className = "grid-header">Favorite?</h1><div className="fav-button-container">{<FavButton currentBeer={officialBeerOfTheDay} />}</div></div>
+                            <div className="grid-item"><h1 className = "grid-header">Favorite?</h1><div className="fav-button-container"><FavButton currentBeer={officialBeerOfTheDay} /></div></div>
                         </div>
                     </div>
                 )}
