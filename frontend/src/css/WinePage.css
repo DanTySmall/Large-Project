@@ -1,109 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
-.beer-of-the-day {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    align-items: center;
-    background-color: rgb(255, 255, 255, 0.75);
-    border: 10px solid #ebc713;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 48%;
-    top: 15%;
-    right: 10%;
-    bottom: 8%;
-  }
+.wine-page{
+    background-image: url('../images/wine2.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+}
 
-  .beer-of-the-day > div{
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0px;
-    font-size: 36px;
-  }
-
-  .beer-of-the-day > div > h1{
-    justify-content: space-between;
-    padding-top: 15px;
-    padding-bottom: 5px;
-    margin: 0px;
-    font-size: 36px;
-  }
-
-  .beer-of-the-day > div> img{
-    top: 0;
-    margin: 0px;
-    width: 20%;
-  }
-
-  .botd-content{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    flex-grow: 1;
-    height: 100%;
-    padding-bottom: 10px;
-    overflow: hidden;
-  }
-
-  .botd-nutri-values{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 1;
-    padding-top: 15px;
-    height: 90%;
-    width: 100%;
-    justify-content: center;
-  }
-
-  .botd-nutri-values > h2{
-    margin: 0px;
-    font-size: 36px;
-  }
-
-  .grid {
-    padding: 20px;
-    padding-bottom: 15px;
-    display: grid;
-    flex-grow: 1;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(3, auto);
-    width: 90%;
-  }
-  
-  .grid-item {
-    position: relative;
-    padding-top: 5px;
-    padding-bottom: 25px;
-    text-align: center;
-    font-size: 26px;
-  }
-  
-  .grid-item:nth-child(2n) {
-    border-left: 1px solid black;
-  }
-
-  .grid-item:nth-child(4n){
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
-  }
-  .grid-item:nth-child(4n -1){
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
-  }
-  
-  .grid-header{
-    font-weight: bold;
-    font-size: 36px;
-    margin: 0;
-  }
-
-  .beer-list-button{
+.wine-list-button{
     display: block;
     padding: 15px;
     font-size: 18px;
@@ -114,66 +18,29 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
     width: 100%;
-  }
+}
 
-  .beer-list-button:hover{
+.wine-list-button:hover{
     text-decoration: underline;
     font-weight: bold;
     background-color: #e68900;
-  }
-  
-  .image-container {
-    position: relative;
-    width: 100%;
-    height: 150px;
-    overflow: hidden;
-  }
-  
-  .beer-image {
-    position: absolute;
-    top: -50px; 
-    left: 10%;
-    width: 100px; 
-  }
+}
 
-  .beer-page{
-    background-image: url('../images/Beer.jpeg');
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
-  }
-  
-  .beer-header{
-    display: flex;
-    height: 56px;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    background-color: rgba(252, 124, 4, 0.31);
-  }
-  
-  .beer-header > div {
-    color: white;
-    font-size: 22px;
-    font-weight: bold;
-    justify-content: inherit;
-  }
-
-  .beer-list{
+.wine-list{
     display: flex;
     flex-direction: column;
     position: absolute;
     background-color: rgb(255, 255, 255, 0.75);
-    border: 10px solid #ebc713;
+    border: 10px solid rgba(102, 11, 31, 0.31);
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 48%;
     top: 15%;
     right: 10%;
     bottom: 8%;
-  }
+}
   
-  .beer-list-header {
+.wine-list-header {
     position: relative;
     display: flex;
     justify-content: space-between;
@@ -181,40 +48,40 @@
     margin: 0px;
     font-size: 36px;
     width: 100%;
-  }
+}
   
-  .beer-list > div{
+.wine-list > div{
     position: relative;
     display: flex;
     align-items: center;
     margin: 0px;
     font-size: 36px;
-  }
+}
   
-  .beer-list > div > h1{
+.wine-list > div > h1{
     justify-content: space-between;
     padding-top: 15px;
     padding-bottom: 5px;
     margin: 0px;
     font-size: 36px;
-  }
+}
   
-  .beer-list > div> img{
+.wine-list > div> img{
     top: 0;
     margin: 0px;
     width: 20%;
-  }
+}
   
-  .beer-list-content {
+.wine-list-content {
     display: flex;
     flex-direction: row;
     width: 100%;
     flex-grow: 1;
     padding: 10px 0px 10px 0px;
     overflow: hidden;
-  }
-  
-  .scrollable-box{
+}
+
+.scrollable-box{
     height: 100%;
     overflow-y: auto;
     display: flex;
@@ -222,15 +89,15 @@
     width: 46%;
     padding: 0px 10px 0px 10px;
     border-radius: 10px;
-  }
+}
   
-  .sorted-list{
+.sorted-list{
     list-style: none;
     padding: 0;
     margin: 0;
-  }
-  
-  .list-item{
+}
+
+.wine-list-item{
     padding: 10px 15px;
     margin: 5px 0;
     background-color: #f5f5f5;
@@ -242,22 +109,22 @@
     font-size: 18px;
     color: #333;
     font-family: 'Roboto', sans-serif;
-  }
-  
-  .list-item:hover{
+}
+
+.wine-list-item:hover{
     font-weight: bold; 
     background-color: #ff9800;
     color: #fff;
     transform: translateY(-2px);
-  }
-  
-  .list-item::before {
-    content: "\1F37A"; /* Unicode for a beer mug emoji */
+}
+
+.wine-list-item::before {
+    content: "\1F377"; /*Unicode for a glass of wine emoji */
     margin-right: 10px;
     font-size: 20px;
-  }
-  
-  .display-beer {
+}
+
+.display-wine {
     padding: 10px;
     display: flex;
     flex-direction: column;
@@ -265,16 +132,16 @@
     align-items: flex-start;
     width: 50%;
     overflow: auto;
-  }
+}
 
-  .display-beer > div{
+.display-wine > div{
     height: 100%;
     width: 100%;
     display: flex;
     flex-direction: column;
-  }
+}
   
-  .display-beer > div > h1 {
+.display-wine > div > h1 {
     margin: 0px;
     max-height: 25%;
     width: 100%;
@@ -283,37 +150,40 @@
     text-overflow: ellipsis;
     white-space: normal;
     text-align: center;
-  }
+}
   
-  .beer-info {
+.wine-info {
     height: 100%;
     max-width: 100%;
     position: relative;
-    overflow-y: hidden;
-    overflow-x: hidden;
+    overflow: hidden;
     margin-top: 25px;
-  }
+    padding: 10px;
+    box-sizing: border-box;
+    word-wrap: break-word; /* Break long words */
+    text-align: left;
+}
   
-  .beer-info > p {
+.wine-info > p {
     margin: 0px;
     font-size: 18px;
-  }
+}
   
-  .beer-info-header {
+.wine-info-header {
     margin: 0px;
     font-size: 24px;
-  }
+}
  
-  .search-and-filter{
+.search-and-filter{
     display: flex;
     flex-direction: row;
     padding: 10px 0px 10px 0px;
     width: 100%;
     align-items: center;
     justify-content: space-evenly;
-  }
-  
-  .search-container {
+}
+
+.search-container {
     display: flex;
     align-items: center;
     background-color: #fff;
@@ -321,26 +191,26 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 0px 10px;
     width: 45%;
-  }
-  
-  .search-bar {
+}
+
+.search-bar {
     width: 100%;
     border: none;
     outline: none;
     padding: 10px 15px;
     border-radius: 50px;
     font-size: 16px;
-  }
-  
-  .search-bar::placeholder {
+}
+
+.search-bar::placeholder {
     color: #ccc;
-  }
-  
-  .search-button i {
+}
+
+.search-button i {
     font-size: 24px;
-  }
-  
-  .search-button{
+}
+
+.search-button{
     background-color: transparent;
     border: none;
     outline: none;
@@ -349,17 +219,17 @@
     color: #333;
     padding: 10px;
     margin-left: 5px;
-  }
-  
-  .no-matches-message{
+}
+
+.no-matches-message{
     list-style: none;
     font-size: 20px;
     text-align: center;
     padding: 20px;
     color: #ff9800;
-  }
-  
-  .search-back-button{
+}
+
+.search-back-button{
     background-color: #ff9800;
     border: none;
     color: #fff;
@@ -371,13 +241,13 @@
     align-items: center;
     justify-content: center;
     margin-top: 10px;
-  }
-  
-  .search-back-button:hover {
-    background-color: #e68900;
-  }
+}
 
-  .comment-container {
+.search-back-button:hover {
+    background-color: #e68900;
+}
+
+.comment-container {
     display: flex;
     align-items: center;
     background-color: #fff;
@@ -387,27 +257,27 @@
     left: 5%;
     position: relative;
     margin-top: 5%;
-    margin-bottom: 5%;
-  }
+margin-bottom: 5%;
+}
 
-  .comment-bar {
+.comment-bar {
     width: 100%;
     border: none;
     outline: none;
     padding: 10px 15px;
     border-radius: 50px;
     font-size: 16px;
-  }
-  
-  .comment-bar::placeholder {
+}
+
+.comment-bar::placeholder {
     color: #ccc;
-  }
-  
-  .comment-button i {
+}
+
+.comment-button i {
     font-size: 24px;
-  }
-  
-  .comment-button{
+}
+
+.comment-button{
     background-color: transparent;
     border: none;
     outline: none;
@@ -417,49 +287,35 @@
     padding: 10px;
     padding-right: 15px;
     margin-left: 5px;
-  }
+}
 
-  /* Media Queries */
-  @media (max-width: 480px) {
-    .beer-page {
+/* Media Queries */
+@media (max-width: 480px) {
+    .wine-page {
         height: auto; /* Maintain height auto */
         padding: 10px; /* Adjust padding for mobile screens */
-    }
-    .beer-of-the-day {
-        width: 90%; /* Adjust width for mobile screens */
     }
 }
 
 @media (max-width: 768px) {
-  .beer-page {
+  .wine-page {
       height: auto; /* Maintain height auto */
       padding: 15px; /* Adjust padding for smaller screens */
-  }
-  .beer-of-the-day {
-      width: 80%; /* Adjust width for smaller screens */
   }
 }
 
 @media (max-width: 1024px) {
-  .beer-page {
+  .wine-page {
       height: auto; /* Maintain height auto */
       padding: 20px;
-  }
-  .beer-of-the-day {
-      width: 70%; /* Adjust width for smaller screens */
   }
 }
 
 @media (max-width: 1200px) {
-  .beer-page {
+  .wine-page {
       height: 850px; /* Change height to auto for smaller screens */
   }
-  .beer-of-the-day {
-      height: fit-content;
-      width: 70%;
-      right: 3%;
-  }
-  .beer-list{
+  .wine-list{
       height: 700px;
       width: 70%;
       right: 3%;
@@ -467,39 +323,23 @@
 }
 
 @media (min-width: 1200px){
-  .beer-of-the-day {
+  .wine-list {
       height: 700px;
       width: 60%; /* Adjust width for smaller screens */
       right: 5%;
   }
-  .botd-content{
-      padding-top: 10px;
-  }
-  .beer-list {
-      height: 700px;
-      width: 60%; /* Adjust width for smaller screens */
-      right: 5%;
-  }
-  .beer-page {
+  .wine-page {
       height: 900px; /* Change height to auto for smaller screens */
   }
 }
 
-  @media (min-width: 1440px){
-    .beer-of-the-day {
+@media (min-width: 1440px){
+    .wine-list {
         height: 800px;
         width: 60%; /* Adjust width for smaller screens */
         right: 5%;
     }
-    .botd-content{
-        padding-top: 10px;
-    }
-    .beer-list {
-        height: 800px;
-        width: 60%; /* Adjust width for smaller screens */
-        right: 5%;
-    }
-    .beer-page {
+    .wine-page {
         height: 1250px; /* Change height to auto for smaller screens */
     }
 }
