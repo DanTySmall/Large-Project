@@ -1,9 +1,9 @@
 import React, {useState, useEffect, useContext} from 'react';
 import '../main.css';
-import '../css/BeerPage.css';
+import '../css/WinePage.css';
 import WineGlass from '../images/wine-glass.png';
 import axios from 'axios';
-import DisplayBeer from './DisplayBeer.js';
+import DisplayWine from './DisplayWine.js';
 import { UserContext } from './userProvider';
 
 
@@ -169,15 +169,15 @@ const WineList = () => {
 
 
     return(
-    <div className = "beer-list" id = "beerList">
-        <div className = "beer-list-header">
+    <div className = "wine-list" id = "wineList">
+        <div className = "wine-list-header">
                 <img src = {WineGlass} alt=""></img>
                 <h1> Wine List </h1>
                 <img src = {WineGlass} alt=""></img>
         </div>
         <div className = "search-and-filter">
             <div className="search-container">
-                <input id="beer-search-bar" placeholder="Search" className="search-bar" type="text" onChange={(e) => setText(e.target.value)} onBlur={handleBlur} onFocus={handleFocus} />
+                <input id="wine-search-bar" placeholder="Search" className="search-bar" type="text" onChange={(e) => setText(e.target.value)} onBlur={handleBlur} onFocus={handleFocus} />
                 <button className="search-button" onClick={handleSearch} ><i className="bi bi-search"></i></button>
             </div>
             <div className="filter-container">
@@ -191,21 +191,21 @@ const WineList = () => {
                 </select>
             </div>
         </div>
-        <div className = "beer-list-content">
+        <div className = "wine-list-content">
             <div className = "scrollable-box">
                 {/* <p>searchResults : {searchResults.data}<br></br>validSearch: {validSearch.value}</p> */}
 
                 {validSearch ? (searchResults.length === 0 ?
                                     (Array.isArray(wines) && wines.map(wine => (
                                         <ul id="sortedList" className = "sorted-list" key={wine._id}>
-                                            <li className="list-item" onClick={() => handleBeerClick(wine)}> {wine.Name} </li>
+                                            <li className="wine-list-item" onClick={() => handleBeerClick(wine)}> {wine.Name} </li>
                                         </ul>
                 ))) :
                                     (Array.isArray(searchResults) &&
                                         <>
                                             {searchResults.map(wine => (
                                                 <ul id="sortedList" className = "sorted-list" key={wine._id}>
-                                                    <li className="list-item" onClick={() => handleBeerClick(wine)}> {wine.Name} </li>
+                                                    <li className="wine-list-item" onClick={() => handleBeerClick(wine)}> {wine.Name} </li>
                                                 </ul>
                                             ))}
                                             <button className = "search-back-button" onClick = {handleSearchBackButton}><i className="bi bi-arrow-left"></i>Back</button>
@@ -213,7 +213,7 @@ const WineList = () => {
                                     )) :
                         (<div>
                         <ul className = "sorted-list">
-                            <li className="no-matches-message" > No beers matched with the criteria <br></br><i className="bi bi-emoji-frown"></i> </li>
+                            <li className="no-matches-message" > No wine matched with the criteria <br></br><i className="bi bi-emoji-frown"></i> </li>
                         </ul>
                         <button className = "search-back-button" onClick = {handleSearchBackButton}><i className="bi bi-arrow-left"></i>Back</button>
                         </div>)
@@ -223,7 +223,7 @@ const WineList = () => {
 
             </div>
             {validSearch && showDisplayWine && selectedWine && (
-                <DisplayBeer beer={selectedWine} />
+                <DisplayWine wine={selectedWine} />
             )}
         </div>
         {/* <button onClick={switchComponents} className = "beer-list-button"><i className="bi bi-arrow-left"></i>Back</button> */}
