@@ -3,7 +3,7 @@ import FavButton from './FavButton.js';
 import '../main.css';
 import '../css/BeerPage.css';
 
-const NutritionFacts = ({beerToDisplay, switchComp}) => {
+const BeerNutritionFacts = ({beerToDisplay, switchComp}) => {
     return(
         <div>
             <h1>{beerToDisplay.Name}</h1>
@@ -40,4 +40,4 @@ const NutritionFacts = ({beerToDisplay, switchComp}) => {
     );
 }
 
-export default NutritionFacts;
+export default BeerNutritionFacts;
