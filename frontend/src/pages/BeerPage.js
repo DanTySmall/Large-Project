@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, } from 'react';
 import BeerHeader from '../components/BeerHeader.js';
 import BeerOfTheDay from '../components/BeerOfTheDay.js';
 import BeerList from '../components/BeerList.js';

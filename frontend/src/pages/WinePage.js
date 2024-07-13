@@ -1,14 +1,13 @@
 import WineHeader from "../components/WineHeader";
-import React, { useState, useEffect } from 'react';
+import React, { } from 'react';
+import WineList from "../components/WineList";
 
 function WinePage(){
     return(
         <div className ="wine-page">
             <div className = "wine-content">
                 <WineHeader />
-                <div className = "wine-box">
-                    <h1>Wine</h1>
-                </div>
+                <WineList />
             </div>
         </div>
     );
