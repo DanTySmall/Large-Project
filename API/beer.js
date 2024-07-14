@@ -52,10 +52,8 @@ router.post('/favoriteBeer', async(req, res) => {
     const BeerId = ObjectId.createFromHexString(_id)
     const favorite = await db.collection('Beer').updateOne( //Adds User Id to array
         { _id: BeerId },
-        //{ $push: { Favorites: UserId, } })
         { $addToSet: { Favorites: UserId } }) // to avoid duplicates
 
-    //if(favorite){
     if (favorite.modifiedCount > 0) {
         res.status(200).json({favorite, message:"User has favorited their beer"})
     }
@@ -73,7 +71,6 @@ router.post('/unfavoriteBeer', async(req, res) => {
         {_id: BeerId}, 
         {$pull: {Favorites: UserId,}}) //Removes UserId from array
 
-    //if(unfavorite){
     if (unfavorite.ok) {
         res.status(200).json({unfavorite, message:"User has unfavorited their beer"})
     }

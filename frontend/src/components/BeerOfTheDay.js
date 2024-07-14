@@ -3,7 +3,7 @@ import axios from 'axios';
 import '../main.css';
 import BeerMugsLeft from '../images/beer-mugs-left.png';
 import BeerMugsRight from '../images/beer-mugs-right.png';
-import FavButton from './FavButton.js';
+import BeerFavButton from './BeerFavButton.js';
 
 const BeerOfTheDay = ({switchComponents}) => {
     const app_name = 'paradise-pours-4be127640468'
@@ -98,7 +98,7 @@ const BeerOfTheDay = ({switchComponents}) => {
 
                             <div className="grid-item"><h1 className = "grid-header">Origin:</h1><br />{officialBeerOfTheDay.Origin}</div>
 
-                            <div className="grid-item"><h1 className = "grid-header">Favorite?</h1><div className="fav-button-container"><FavButton currentBeer={officialBeerOfTheDay} /></div></div>
+                            <div className="grid-item"><h1 className = "grid-header">Favorite?</h1><div className="fav-button-container"><BeerFavButton currentBeer={officialBeerOfTheDay} /></div></div>
                         </div>
                     </div>
                 )}

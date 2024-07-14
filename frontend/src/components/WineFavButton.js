@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { UserContext } from './userProvider';
 
-const FavButton = ({drink = {} }) =>{
+const WineFavButton = ({drink = {} }) =>{
     const app_name = 'paradise-pours-4be127640468'
     function buildPath(route)
     {
@@ -45,15 +45,15 @@ const FavButton = ({drink = {} }) =>{
     const changeFav = async () => {
         console.log('Change Fav clicked');
         if (favBoolean) {
-            await unfavBeer();
+            await unfavWine();
         } else {
-            await favBeer();
+            await favWine();
         }
     };
 
-    async function unfavBeer(){
+    async function unfavWine(){
         try{
-            const resp = await axios.post(buildPath('api/unfavoriteBeer'), {
+            const resp = await axios.post(buildPath('api/unfavoriteWine'), {
                 _id: drink._id,
                 UserId: userID
             });
@@ -66,9 +66,9 @@ const FavButton = ({drink = {} }) =>{
         }
     }
 
-    async function favBeer(){
+    async function favWine(){
         try{
-            const resp = await axios.post(buildPath('api/favoriteBeer'), {
+            const resp = await axios.post(buildPath('api/favoriteWine'), {
                 _id: drink._id,
                 UserId: userID
             });
@@ -88,4 +88,4 @@ const FavButton = ({drink = {} }) =>{
     )
 }
 
-export default FavButton;
+export default WineFavButton;

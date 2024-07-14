@@ -1,5 +1,5 @@
 import React from 'react';
-import FavButton from './FavButton.js';
+import BeerFavButton from './BeerFavButton.js';
 import '../main.css';
 import '../css/BeerPage.css';
 
@@ -31,7 +31,7 @@ const BeerNutritionFacts = ({beerToDisplay, switchComp}) => {
                 <div className="nutrition-item">
                     <h1 className="beer-info-header">Favorite?</h1>
                     <div className="fav-button-container-in-list">
-                        <FavButton drink={beerToDisplay} />
+                        <BeerFavButton drink={beerToDisplay} />
                     </div>
                 </div>
                 <button onClick={switchComp} className = "ratings-button">Rate Beer<i className="bi bi-arrow-right"></i></button>

@@ -52,9 +52,9 @@ router.post('/favoriteWine', async(req, res) => {
     const WineId = ObjectId.createFromHexString(_id)
     const favorite = await db.collection('Wine').updateOne( //Adds User Id to array
         { _id: WineId },
-        { $push: { Favorites: UserId, } })
+        { $addToSet: { Favorites: UserId } }) // to avoid duplicates
 
-    if(favorite){
+    if (favorite.modifiedCount > 0) {
         res.status(200).json({favorite, message:"User has favorited their wine"})
     }
     else{
@@ -67,8 +67,12 @@ router.post('/unfavoriteWine', async(req, res) => {
     const db = getClient().db('AlcoholDatabase')
     const {_id, UserId} = req.body
     const WineId = ObjectId.createFromHexString(_id)
-    const unfavorite = await db.collection('Wine').findOneAndUpdate({_id: WineId}, {$pull: {Favorites: UserId,}}) //Removes UserId from array
-    if(unfavorite){
+    const unfavorite = await db.collection('Wine').findOneAndUpdate(
+        {_id: WineId}, 
+        {$pull: {Favorites: UserId,}}) //Removes UserId from array
+
+    //if(unfavorite){
+    if (unfavorite.ok) {
         res.status(200).json({unfavorite, message:"User has unfavorited their wine"})
     }
     else{
