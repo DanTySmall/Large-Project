@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { UserContext } from './userProvider';
 
-const FavButton = ({drink}) =>{
+const FavButton = ({drink = {} }) =>{
     const app_name = 'paradise-pours-4be127640468'
     function buildPath(route)
     {
@@ -24,9 +24,10 @@ const FavButton = ({drink}) =>{
         if (userID && drink) {
             checkFav();
         }
-    });
+    },  [userID, drink]);
 
     async function checkFav(){
+        console.log('Checking fav status');
         if(drink?.Favorites?.length > 0){
             //Change to compare the id to the current user (6 = Connor's User ID)
             if(drink.Favorites.some(user => user === userID || user?.UserId === userID)){
@@ -42,22 +43,21 @@ const FavButton = ({drink}) =>{
     }
 
     const changeFav = async () => {
+        console.log('Change Fav clicked');
         if (favBoolean) {
-            unfavBeer();
+            await unfavBeer();
         } else {
-            favBeer();
+            await favBeer();
         }
-        await checkFav();
     };
 
     async function unfavBeer(){
         try{
-            if (drink.Favorites.includes(userID) || drink.Favorites.some(user => user?.UserId === userID)) {
-                await axios.post(buildPath('api/unfavoriteBeer'), {
-                    _id: drink._id,
-                    UserId: userID
-                });
-
+            const resp = await axios.post(buildPath('api/unfavoriteBeer'), {
+                _id: drink._id,
+                UserId: userID
+            });
+            if(resp.status === 200){
                 setFavBoolean(false);
             }
         }
@@ -68,12 +68,11 @@ const FavButton = ({drink}) =>{
 
     async function favBeer(){
         try{
-            if (!drink.Favorites.includes(userID) && !drink.Favorites.some(user => user?.UserId === userID)) {
-                await axios.post(buildPath('api/favoriteBeer'), {
-                    _id: drink._id,
-                    UserId: userID
-                });
-
+            const resp = await axios.post(buildPath('api/favoriteBeer'), {
+                _id: drink._id,
+                UserId: userID
+            });
+            if(resp.status === 200){
                 setFavBoolean(true);
             }
         }
@@ -83,7 +82,9 @@ const FavButton = ({drink}) =>{
     }
 
     return(
-        <button className = "fav-button" onClick = {changeFav}>{favBoolean ? <i className="bi bi-heart-fill"></i> : <i className = "bi bi-heart"></i>}</button>
+        <button className = "fav-button" onClick = {changeFav}>
+            {favBoolean ? <i className="bi bi-heart-fill"></i> : <i className = "bi bi-heart"></i>}
+        </button>
     )
 }
 

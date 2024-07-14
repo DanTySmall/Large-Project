@@ -52,9 +52,11 @@ router.post('/favoriteBeer', async(req, res) => {
     const BeerId = ObjectId.createFromHexString(_id)
     const favorite = await db.collection('Beer').updateOne( //Adds User Id to array
         { _id: BeerId },
-        { $push: { Favorites: UserId, } })
+        //{ $push: { Favorites: UserId, } })
+        { $addToSet: { Favorites: UserId } }) // to avoid duplicates
 
-    if(favorite){
+    //if(favorite){
+    if (favorite.modifiedCount > 0) {
         res.status(200).json({favorite, message:"User has favorited their beer"})
     }
     else{
@@ -67,8 +69,12 @@ router.post('/unfavoriteBeer', async(req, res) => {
     const db = getClient().db('AlcoholDatabase')
     const {_id, UserId} = req.body
     const BeerId = ObjectId.createFromHexString(_id)
-    const unfavorite = await db.collection('Beer').findOneAndUpdate({_id: BeerId}, {$pull: {Favorites: UserId,}}) //Removes UserId from array
-    if(unfavorite){
+    const unfavorite = await db.collection('Beer').findOneAndUpdate(
+        {_id: BeerId}, 
+        {$pull: {Favorites: UserId,}}) //Removes UserId from array
+
+    //if(unfavorite){
+    if (unfavorite.ok) {
         res.status(200).json({unfavorite, message:"User has unfavorited their beer"})
     }
     else{

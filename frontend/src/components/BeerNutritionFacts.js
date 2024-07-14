@@ -31,7 +31,7 @@ const BeerNutritionFacts = ({beerToDisplay, switchComp}) => {
                 <div className="nutrition-item">
                     <h1 className="beer-info-header">Favorite?</h1>
                     <div className="fav-button-container-in-list">
-                        <FavButton currentBeer={beerToDisplay} />
+                        <FavButton drink={beerToDisplay} />
                     </div>
                 </div>
                 <button onClick={switchComp} className = "ratings-button">Rate Beer<i className="bi bi-arrow-right"></i></button>
