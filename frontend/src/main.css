@@ -663,7 +663,7 @@ input:checked + .slider:before {
 }
 
 .liquor-page{
-  background-image: url('./images/LiquorBackground1.jpg');
+  background-image: url('./images/LiquorBackgroundEnhanced.jpg');
   background-size: cover;
   background-position: center;
   height: 100vh;
