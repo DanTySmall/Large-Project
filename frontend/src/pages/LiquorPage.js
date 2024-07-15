@@ -1,14 +1,16 @@
 import LiquorHeader from "../components/LiquorHeader";
-import React, { useState, useEffect } from 'react';
+import React, { } from 'react';
+import LiquorList from "../components/LiquorList";
+import '../css/LiquorPage.css';
+import '../main.css';
+
 
 function LiquorPage(){
     return(
-        <div className ="liquor-page">
-            <div className = "liquor-content">
+        <div className ="liq-page">
+            <div className = "liq-content">
                 <LiquorHeader />
-                <div className = "liquor-box">
-                    <h1>Liquor</h1>
-                </div>
+                <LiquorList />
             </div>
         </div>
     );

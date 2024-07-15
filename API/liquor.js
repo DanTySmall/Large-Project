@@ -1,5 +1,6 @@
 const express = require('express');
 const {getClient} = require('../database');
+const ObjectId = require('mongodb').ObjectId;
 const router = express.Router();
 
 //Liquor Partial-Match Search - Users can use multiple parameters to find their drinks
@@ -32,6 +33,52 @@ router.post('/searchLiquor', async(req, res) => {
     }
 })
 
+//Retrieves all Liquors in the database
+router.get('/getAllLiquors', async (req, res) => {
+    const db = getClient().db('AlcoholDatabase'); 
+    const liquors = await db.collection('Liquor').find({}).toArray();
 
+    if(liquors.length > 0){
+        res.status(200).json({liquors})
+    }
+    else{
+        res.status(400).json({error:"Couldn't retrieve all liquors..."})
+    }
+});
+
+//User can favorite Liquors by adding UserId to the Drink's Favorite array
+router.post('/favoriteLiquors', async(req, res) => {
+    const db = getClient().db('AlcoholDatabase')
+    const {_id, UserId} = req.body
+    const LiquorId = ObjectId.createFromHexString(_id)
+    const favorite = await db.collection('Liquor').updateOne( //Adds User Id to array
+        { _id: LiquorId },
+        { $addToSet: { Favorites: UserId } }) // to avoid duplicates
+
+    if (favorite.modifiedCount > 0) {
+        res.status(200).json({favorite, message:"User has favorited their liquor"})
+    }
+    else{
+        res.status(400).json({message:"User could not favorite their liquor"})
+    }
+})
+
+//User can unfavorite Liquor by deleting UserId from the Drink's Favorite array
+router.post('/unfavoriteLiquor', async(req, res) => {
+    const db = getClient().db('AlcoholDatabase')
+    const {_id, UserId} = req.body
+    const LiquorId = ObjectId.createFromHexString(_id)
+    const unfavorite = await db.collection('Liquor').findOneAndUpdate(
+        {_id: LiquorId}, 
+        {$pull: {Favorites: UserId,}}) //Removes UserId from array
+
+    //if(unfavorite){
+    if (unfavorite.ok) {
+        res.status(200).json({unfavorite, message:"User has unfavorited their liquor"})
+    }
+    else{
+        res.status(400).json({message:"User could not unfavorite their liquor"})
+    }
+})
 
 module.exports = router

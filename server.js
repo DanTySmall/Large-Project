@@ -14,9 +14,11 @@ app.use(bodyParser.json());
 const userAPI = require('./API/user');
 const beerAPI = require('./API/beer'); // Import beer API
 const wineAPI = require('./API/wine'); // Import wine API
+const liquorAPI = require('./API/liquor'); // Import liquor API
 app.use('/api', userAPI); // Mount user APIs
 app.use('/api', beerAPI); // Mount beer API
 app.use('/api', wineAPI); // Mount wine API
+app.use('/api', liquorAPI); // Mount liquor API
 
 // CORS Middleware
 app.use((req, res, next) => 

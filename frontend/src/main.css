@@ -639,7 +639,7 @@ input:checked + .slider:before {
   justify-content: space-between;
   align-items: center;
   position: relative;
-  background-color: rgba(102, 11, 31, 0.31);
+  background-color: rgba(204, 85, 0, 0.31);
 }
 
 .liquor-header > div {
