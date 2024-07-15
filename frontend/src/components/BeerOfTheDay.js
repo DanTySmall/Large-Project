@@ -34,15 +34,17 @@ const BeerOfTheDay = ({switchComponents}) => {
 
                 // If there's a saved beer and it's valid for today, use it
                 if (savedBeer && isBeerValidForToday(savedBeer)) {
-                    setOfficialBeerOfTheDay(savedBeer.beer);
+                    const updatedBeer = await fetchUpdatedBeerInfo(savedBeer.beer);
+                    setOfficialBeerOfTheDay(updatedBeer);
                 } else {
                     // Otherwise, select a random beer
                     const randomBeer = selectBeerOfTheDay(beers);
-                    setOfficialBeerOfTheDay(randomBeer);
+                    const updatedBeer = await fetchUpdatedBeerInfo(randomBeer);
+                    setOfficialBeerOfTheDay(updatedBeer);
 
                     // Save the selected beer along with today's date to local storage
                     localStorage.setItem('beerOfTheDay', JSON.stringify({
-                        beer: randomBeer,
+                        beer: updatedBeer,
                         date: new Date().toDateString()
                     }));
                 }
@@ -62,6 +64,19 @@ const BeerOfTheDay = ({switchComponents}) => {
             const savedDate = new Date(savedBeer.date);
             const currentDate = new Date();
             return savedDate.toDateString() === currentDate.toDateString();
+        }
+
+        async function fetchUpdatedBeerInfo(beer) {
+            try {
+                const response = await axios.post(buildPath('api/searchBeer'), { Name: beer.Name });
+                if (response.data.beer.length > 0) {
+                    return response.data.beer[0];
+                }
+                return beer;
+            } catch (error) {
+                console.error("Error fetching updated beer info:", error);
+                return beer;
+            }
         }
 
         // Fetch beers and set beer of the day when component mounts
@@ -98,7 +113,7 @@ const BeerOfTheDay = ({switchComponents}) => {
 
                             <div className="grid-item"><h1 className = "grid-header">Origin:</h1><br />{officialBeerOfTheDay.Origin}</div>
 
-                            <div className="grid-item"><h1 className = "grid-header">Favorite?</h1><div className="fav-button-container"><BeerFavButton currentBeer={officialBeerOfTheDay} /></div></div>
+                            <div className="grid-item"><h1 className = "grid-header">Favorite?</h1><div className="fav-button-container"><BeerFavButton drink={officialBeerOfTheDay} /></div></div>
                         </div>
                     </div>
                 )}
