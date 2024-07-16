@@ -130,17 +130,45 @@ const BeerList = ({switchComponents}) => {
             }
             else if (filterSelection === "IPAs") {
                 setShowDisplayBeer(false);
-                const IPAsBeerFilter = allBeers.filter(beer => (beer.Style === 'IPA') && ((beer.ABV >= 5.0) && (beer.ABV <= 7.5)));
+                const IPAsBeerFilter = allBeers.filter(beer => (beer.Style === 'IPA') && (beer.ABV >= 5.0));
                 setValidSearch(true);
                 setSearchResults([]);
                 setSearchResults(IPAsBeerFilter);
             }
-            else if(filterSelection === "DoubleIPAs"){
+            else if(filterSelection === "pilsner"){
                 setShowDisplayBeer(false);
-                const doubleIPAsBeerFilter = allBeers.filter(beer => beer.ABV > 7.5);
+                const PilsnerBeerFilter = allBeers.filter(beer => (beer.Style === 'Pilsner'));
                 setValidSearch(true);
                 setSearchResults([]);
-                setSearchResults(doubleIPAsBeerFilter);
+                setSearchResults(PilsnerBeerFilter);
+            }
+            else if(filterSelection === "lager"){
+                setShowDisplayBeer(false);
+                const LagerBeerFilter = allBeers.filter(beer => /Lager/i.test(beer.Style));
+                setValidSearch(true);
+                setSearchResults([]);
+                setSearchResults(LagerBeerFilter);
+            }
+            else if(filterSelection === "wheat"){
+                setShowDisplayBeer(false);
+                const WheatBeerFilter = allBeers.filter(beer => /Wheat/i.test(beer.Style));
+                setValidSearch(true);
+                setSearchResults([]);
+                setSearchResults(WheatBeerFilter);
+            }
+            else if(filterSelection === "porter"){
+                setShowDisplayBeer(false);
+                const PorterBeerFilter = allBeers.filter(beer => (beer.Style === 'Porter'));
+                setValidSearch(true);
+                setSearchResults([]);
+                setSearchResults(PorterBeerFilter);
+            }
+            else if(filterSelection === "stout"){
+                setShowDisplayBeer(false);
+                const StoutBeerFilter = allBeers.filter(beer => (beer.Style === 'Stout'));
+                setValidSearch(true);
+                setSearchResults([]);
+                setSearchResults(StoutBeerFilter);
             }
             else if (filterSelection === "calories") {
                 setShowDisplayBeer(false);
@@ -189,7 +217,11 @@ const BeerList = ({switchComponents}) => {
                     <option value="">Filter</option>
                     <option value="fav">Favorites</option>
                     <option value="IPAs">IPAs</option>
-                    <option value="DoubleIPAs">Double IPAs (ABV &gt; 7.5)</option>
+                    <option value="pilsner">Pilsner</option>
+                    <option value="lager">Lager</option>
+                    <option value="wheat">Wheat</option>
+                    <option value="porter">Porter</option>
+                    <option value="stout">Stout</option>
                     <option value="calories">Calories &lt; 125</option>
                     <option value="origin">Origin: USA</option>
                 </select>

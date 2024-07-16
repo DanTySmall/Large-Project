@@ -112,45 +112,52 @@ const WineList = () => {
 
     useEffect(() => {
         async function getList() {
-            const allBeers = await fetchAllWines();
+            const allWines = await fetchAllWines();
     
             //Change when we get the function to
-            //return the beers that the user has favorited
+            //return the wines that the user has favorited
             if (filterSelection === "fav") {
                 setShowDisplayWine(false);
-                const FavBeerFilter = allBeers.filter(beer => beer.Favorites && beer.Favorites.some(user => user === userID || user.UserId === userID));
+                const FavWineFilter = allWines.filter(wine => wine.Favorites && wine.Favorites.some(user => user === userID || user.UserId === userID));
                 setValidSearch(true);
                 setSearchResults([]);
-                setSearchResults(FavBeerFilter);
+                setSearchResults(FavWineFilter);
 
             }
-            else if (filterSelection === "IPAs") {
+            else if (filterSelection === "red") {
                 setShowDisplayWine(false);
-                const IPAsBeerFilter = allBeers.filter(beer => (beer.Style === 'IPA') && ((beer.ABV >= 5.0) && (beer.ABV <= 7.5)));
+                const RedWineFilter = allWines.filter(wine => (wine.Style === 'Red'));
                 setValidSearch(true);
                 setSearchResults([]);
-                setSearchResults(IPAsBeerFilter);
+                setSearchResults(RedWineFilter);
             }
-            else if(filterSelection === "DoubleIPAs"){
+            else if(filterSelection === "white"){
                 setShowDisplayWine(false);
-                const doubleIPAsBeerFilter = allBeers.filter(beer => beer.ABV > 7.5);
+                const WhiteWineFilter = allWines.filter(wine => (wine.Style === 'White'));
                 setValidSearch(true);
                 setSearchResults([]);
-                setSearchResults(doubleIPAsBeerFilter);
+                setSearchResults(WhiteWineFilter);
+            }
+            else if(filterSelection === "sparkling"){
+                setShowDisplayWine(false);
+                const SparklingWineFilter = allWines.filter(wine => (wine.Style === 'Sparkling'));
+                setValidSearch(true);
+                setSearchResults([]);
+                setSearchResults(SparklingWineFilter);
             }
             else if (filterSelection === "calories") {
                 setShowDisplayWine(false);
-                const caloriesBeerFilter = allBeers.filter(beer => beer.Calories < 125);
+                const caloriesWineFilter = allWines.filter(wine => wine.Calories < 125);
                 setValidSearch(true);
                 setSearchResults([]);
-                setSearchResults(caloriesBeerFilter);
+                setSearchResults(caloriesWineFilter);
             }
             else if (filterSelection === "origin") {
                 setShowDisplayWine(false);
-                const originBeerFilter = allBeers.filter(beer => beer.Origin === "USA");
+                const originWineFilter = allWines.filter(wine => wine.Origin === "USA");
                 setValidSearch(true);
                 setSearchResults([]);
-                setSearchResults(originBeerFilter);
+                setSearchResults(originWineFilter);
             }
             else {
                 setSearchResults([]);
@@ -184,8 +191,9 @@ const WineList = () => {
                 <select className="filter-select" onChange={handleFilterChange}>
                     <option value="">Filter</option>
                     <option value="fav">Favorites</option>
-                    <option value="IPAs">IPAs</option>
-                    <option value="DoubleIPAs">Double IPAs (ABV &gt; 7.5)</option>
+                    <option value="red">Red</option>
+                    <option value="white">White</option>
+                    <option value="sparkling">Sparkling</option>
                     <option value="calories">Calories &lt; 125</option>
                     <option value="origin">Origin: USA</option>
                 </select>

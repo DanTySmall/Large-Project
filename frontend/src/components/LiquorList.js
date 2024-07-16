@@ -112,45 +112,59 @@ const LiquorList = () => {
 
     useEffect(() => {
         async function getList() {
-            const allBeers = await fetchAllLiquors();
+            const allLiquors = await fetchAllLiquors();
     
             //Change when we get the function to
             //return the liquors that the user has favorited
             if (filterSelection === "fav") {
                 setShowDisplayLiquor(false);
-                const FavLiqFilter = allBeers.filter(liquor => liquor.Favorites && liquor.Favorites.some(user => user === userID || user.UserId === userID));
+                const FavLiqFilter = allLiquors.filter(liquor => liquor.Favorites && liquor.Favorites.some(user => user === userID || user.UserId === userID));
                 setValidSearch(true);
                 setSearchResults([]);
                 setSearchResults(FavLiqFilter);
 
             }
-            else if (filterSelection === "IPAs") {
+            else if (filterSelection === "whiskey") {
                 setShowDisplayLiquor(false);
-                const IPAsBeerFilter = allBeers.filter(liquor => (liquor.Style === 'IPA') && ((liquor.ABV >= 5.0) && (liquor.ABV <= 7.5)));
+                const WhiskeyFilter = allLiquors.filter(liquor => (liquor.Style === 'Whiskey') || (liquor.Style === 'Scotch'));
                 setValidSearch(true);
                 setSearchResults([]);
-                setSearchResults(IPAsBeerFilter);
+                setSearchResults(WhiskeyFilter);
             }
-            else if(filterSelection === "DoubleIPAs"){
+            else if(filterSelection === "vodka"){
                 setShowDisplayLiquor(false);
-                const doubleIPAsBeerFilter = allBeers.filter(beer => beer.ABV > 7.5);
+                const VodkaFilter = allLiquors.filter(liquor => (liquor.Style === 'Vodka'));
                 setValidSearch(true);
                 setSearchResults([]);
-                setSearchResults(doubleIPAsBeerFilter);
+                setSearchResults(VodkaFilter);
             }
-            else if (filterSelection === "calories") {
+            else if (filterSelection === "rum") {
                 setShowDisplayLiquor(false);
-                const caloriesBeerFilter = allBeers.filter(beer => beer.Calories < 125);
+                const RumFilter = allLiquors.filter(liquor => (liquor.Style === 'Rum'));
                 setValidSearch(true);
                 setSearchResults([]);
-                setSearchResults(caloriesBeerFilter);
+                setSearchResults(RumFilter);
             }
-            else if (filterSelection === "origin") {
+            else if (filterSelection === "gin") {
                 setShowDisplayLiquor(false);
-                const originBeerFilter = allBeers.filter(beer => beer.Origin === "USA");
+                const GinFilter = allLiquors.filter(liquor => (liquor.Style === 'Gin'));
                 setValidSearch(true);
                 setSearchResults([]);
-                setSearchResults(originBeerFilter);
+                setSearchResults(GinFilter);
+            }
+            else if (filterSelection === "tequila") {
+                setShowDisplayLiquor(false);
+                const TequilaFilter = allLiquors.filter(liquor => (liquor.Style === 'Tequila'));
+                setValidSearch(true);
+                setSearchResults([]);
+                setSearchResults(TequilaFilter);
+            }
+            else if (filterSelection === "brandy") {
+                setShowDisplayLiquor(false);
+                const BrandyFilter = allLiquors.filter(liquor => (liquor.Style === 'Brandy') || (liquor.Style === 'Cognac'));
+                setValidSearch(true);
+                setSearchResults([]);
+                setSearchResults(BrandyFilter);
             }
             else {
                 setSearchResults([]);
@@ -184,10 +198,12 @@ const LiquorList = () => {
                 <select className="filter-select" onChange={handleFilterChange}>
                     <option value="">Filter</option>
                     <option value="fav">Favorites</option>
-                    <option value="IPAs">IPAs</option>
-                    <option value="DoubleIPAs">Double IPAs (ABV &gt; 7.5)</option>
-                    <option value="calories">Calories &lt; 125</option>
-                    <option value="origin">Origin: USA</option>
+                    <option value="whiskey">Whiskey and Scotch</option>
+                    <option value="vodka">Vodka</option>
+                    <option value="rum">Rum</option>
+                    <option value="gin">Gin</option>
+                    <option value="tequila">Tequila</option>
+                    <option value="brandy">Brandy and Congac</option>
                 </select>
             </div>
         </div>
