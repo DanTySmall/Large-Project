@@ -67,12 +67,11 @@ router.post('/unfavoriteWine', async(req, res) => {
     const db = getClient().db('AlcoholDatabase')
     const {_id, UserId} = req.body
     const WineId = ObjectId.createFromHexString(_id)
-    const unfavorite = await db.collection('Wine').findOneAndUpdate(
+    const unfavorite = await db.collection('Wine').updateOne(
         {_id: WineId}, 
         {$pull: {Favorites: UserId,}}) //Removes UserId from array
 
-    //if(unfavorite){
-    if (unfavorite.ok) {
+    if (unfavorite.modifiedCount > 0) {
         res.status(200).json({unfavorite, message:"User has unfavorited their wine"})
     }
     else{
