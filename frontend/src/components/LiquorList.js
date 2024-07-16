@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react';
 import '../main.css';
 import '../css/LiquorPage.css';
-import CocktaiGlass from '../images/cocktail-list-header.png';
+import CocktailGlass from '../images/cocktail-list-header.png';
 import axios from 'axios';
 import { UserContext } from './userProvider';
 import DisplayLiquor from './DisplayLiquor.js';
@@ -171,9 +171,9 @@ const LiquorList = () => {
     return(
     <div className = "liq-list" id = "liqList">
         <div className = "liq-list-header">
-                <img src = {CocktaiGlass} alt=""></img>
+                <img src = {CocktailGlass} alt=""></img>
                 <h1> Liquor List </h1>
-                <img src = {CocktaiGlass} alt=""></img>
+                <img src = {CocktailGlass} alt=""></img>
         </div>
         <div className = "search-and-filter">
             <div className="search-container">

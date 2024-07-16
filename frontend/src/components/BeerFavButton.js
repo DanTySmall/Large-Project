@@ -28,7 +28,6 @@ const BeerFavButton = ({drink = {} }) =>{
 
     async function checkFav(){
         if(drink?.Favorites?.length > 0){
-            //Change to compare the id to the current user (6 = Connor's User ID)
             if(drink.Favorites.some(user => user === userID || user?.UserId === userID)){
                 setFavBoolean(true);
             }
