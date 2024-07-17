@@ -874,7 +874,6 @@ input:checked + .slider:before {
   aspect-ratio: 1 / 1 ;
 }
 
-
 .github-logo{
   height: 90%;
   margin: 5%;
@@ -890,4 +889,17 @@ input:checked + .slider:before {
   flex: 1;
   text-align: end;
   align-content: end;
+}
+
+.selected-filter {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.clear-filter-button {
+  margin-top: 4px;
+  margin-left: 5px;
+  cursor: pointer;
+  color: red;
 }

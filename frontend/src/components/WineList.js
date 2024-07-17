@@ -26,6 +26,10 @@ const WineList = () => {
     const [selectedWine, setSelectedWine] = useState(null);
     const [showDisplayWine, setShowDisplayWine] = useState(false);
     const [searchResults, setSearchResults] = useState([]);
+    const [filterSelection, setFilterSelection] = useState('');
+    const [text, setText] = useState('');
+    const [validSearch, setValidSearch] = useState(true);    
+    const [selectedFilterLabel, setSelectedFilterLabel] = useState('');
 
     useEffect(() => {
     }, [searchResults]);
@@ -46,28 +50,25 @@ const WineList = () => {
         fetchAllWines();
     }, []);
 
-    const handleBeerClick = (wine) => {
+    const handleWineClick = (wine) => {
         setSelectedWine(wine);
         setShowDisplayWine(true);
     };
 
-    const [text, setText] = useState('');
-    const [validSearch, setValidSearch] = useState(true);
-
     const handleBlur = () => {
         if(text === ''){
-            document.getElementById('beer-search-bar').value = 'Search';
+            document.getElementById('wine-search-bar').value = 'Search';
         }
     }
 
     const handleFocus = () => {
         if(text === ''){
-            document.getElementById('beer-search-bar').value = '';
+            document.getElementById('wine-search-bar').value = '';
         }
     }
 
     async function handleSearch(){
-        document.getElementById('beer-search-bar').value = 'Search';
+        document.getElementById('wine-search-bar').value = 'Search';
 
         try{
             const resp = await axios.post(buildPath('api/searchWine'), {
@@ -93,11 +94,8 @@ const WineList = () => {
     async function handleSearchBackButton(){
         setSearchResults([]);
         setValidSearch(true);
-        showDisplayWine(!setShowDisplayWine);
+        setShowDisplayWine(!showDisplayWine);
     }
-
-    const [filterSelection, setFilterSelection] = useState('');
-    const [filteredBeers, setFilteredBeers] = useState([]);
 
     async function fetchAllWines(){
         try {
@@ -172,7 +170,17 @@ const WineList = () => {
     const handleFilterChange = (event) =>{
         const selection = event.target.value;
         setFilterSelection(selection);
+        const selectedLabel = event.target.options[event.target.selectedIndex].text;
+        setSelectedFilterLabel(selectedLabel);
     }
+
+    const handleClearFilter = () => {
+        setFilterSelection('');
+        setSelectedFilterLabel('');
+        setSearchResults([]);
+        setValidSearch(true);
+        setShowDisplayWine(false);
+    };
 
 
     return(
@@ -188,7 +196,7 @@ const WineList = () => {
                 <button className="search-button" onClick={handleSearch} ><i className="bi bi-search"></i></button>
             </div>
             <div className="filter-container">
-                <select className="filter-select" onChange={handleFilterChange}>
+                <select className="filter-select" onChange={handleFilterChange} value={filterSelection}>
                     <option value="">Filter</option>
                     <option value="fav">Favorites</option>
                     <option value="red">Red</option>
@@ -197,23 +205,24 @@ const WineList = () => {
                     <option value="calories">Calories &lt; 125</option>
                     <option value="origin">Origin: USA</option>
                 </select>
+                {selectedFilterLabel && (
+                        <i className="bi bi-x-circle clear-filter-button" onClick={handleClearFilter}></i>
+                )}
             </div>
         </div>
         <div className = "wine-list-content">
             <div className = "scrollable-box">
-                {/* <p>searchResults : {searchResults.data}<br></br>validSearch: {validSearch.value}</p> */}
-
                 {validSearch ? (searchResults.length === 0 ?
                                     (Array.isArray(wines) && wines.map(wine => (
                                         <ul id="sortedList" className = "sorted-list" key={wine._id}>
-                                            <li className="wine-list-item" onClick={() => handleBeerClick(wine)}> {wine.Name} </li>
+                                            <li className="wine-list-item" onClick={() => handleWineClick(wine)}> {wine.Name} </li>
                                         </ul>
                 ))) :
                                     (Array.isArray(searchResults) &&
                                         <>
                                             {searchResults.map(wine => (
                                                 <ul id="sortedList" className = "sorted-list" key={wine._id}>
-                                                    <li className="wine-list-item" onClick={() => handleBeerClick(wine)}> {wine.Name} </li>
+                                                    <li className="wine-list-item" onClick={() => handleWineClick(wine)}> {wine.Name} </li>
                                                 </ul>
                                             ))}
                                             <button className = "search-back-button" onClick = {handleSearchBackButton}><i className="bi bi-arrow-left"></i>Back</button>
