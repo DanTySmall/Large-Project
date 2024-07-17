@@ -148,7 +148,7 @@ const Ratings = ({beerToDisplay, switchComp}) => {
                     ))}
                 </div>
                 <div className="comment-container">
-                    <input placeholder="Comment" className="comment-bar" type="text" value={comment} onChange={(e) => setComment(e.target.value)} />
+                    <input placeholder="Comment" className="comment-bar" type="text" value={comment} onChange={(e) => setComment(e.target.value)} maxLength="50" />
                     <button className="comment-button" onClick={handleComment} ><i className="bi bi-arrow-up-circle"></i></button>
                 </div>
                 <button onClick={switchComp} className = "ratings-button"><i className="bi bi-arrow-left"></i>Back</button>
