@@ -54,14 +54,14 @@ const Ratings = ({beerToDisplay, switchComp}) => {
     return(
         <div>
             <h1>{beerToDisplay.Name}</h1>
-            <div class = "ratings-info">
-                <h1 class = "beer-info-header">Average Rating: </h1>
+            <div className = "ratings-info">
+                <h1 className = "beer-info-header">Average Rating: </h1>
                 <div className = "average-rating-container">
-                    <i class="bi bi-star rating-star"></i>
-                    <i class="bi bi-star rating-star"></i>
-                    <i class="bi bi-star rating-star"></i>
-                    <i class="bi bi-star rating-star"></i>
-                    <i class="bi bi-star rating-star"></i>
+                    <i className="bi bi-star rating-star"></i>
+                    <i className="bi bi-star rating-star"></i>
+                    <i className="bi bi-star rating-star"></i>
+                    <i className="bi bi-star rating-star"></i>
+                    <i className="bi bi-star rating-star"></i>
                 </div>
 
 
@@ -91,7 +91,7 @@ const Ratings = ({beerToDisplay, switchComp}) => {
                 <br></br>
 
 
-                <h1 class = "beer-info-header">Rate Beer: </h1>
+                <h1 className = "beer-info-header">Rate Beer: </h1>
                 <div className="my-rating-container">
                     {[1, 2, 3, 4, 5].map((star) => (
                         <i
