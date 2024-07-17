@@ -1,8 +1,8 @@
-import React, {useState, useEffect, useRef, useContext } from 'react';
+import React, {useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { UserContext } from './userProvider';
 
-const Ratings = ({beerToDisplay, switchComp}) => {
+const LiquorRatings = ({liquorToDisplay, switchComp}) => {
     const app_name = 'paradise-pours-4be127640468'
     function buildPath(route)
     {
@@ -25,9 +25,9 @@ const Ratings = ({beerToDisplay, switchComp}) => {
     const [comments, setComments] = useState([]);
 
     useEffect(() => {
-        getAverageRating(beerToDisplay);
-        getComments(beerToDisplay);
-    }, [beerToDisplay]);
+        getAverageRating(liquorToDisplay);
+        getComments(liquorToDisplay);
+    }, [liquorToDisplay]);
 
     const scrollLeft = () => {
         setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : comments.length - 1));
@@ -53,8 +53,8 @@ const Ratings = ({beerToDisplay, switchComp}) => {
 
     async function handleComment() {
         try {
-            const response = await axios.post(buildPath('api/rateBeer'), {
-                _id: beerToDisplay._id,
+            const response = await axios.post(buildPath('api/rateLiquor'), {
+                _id: liquorToDisplay._id,
                 UserId: userID,
                 Stars: rating,
                 Comment: comment,
@@ -62,16 +62,16 @@ const Ratings = ({beerToDisplay, switchComp}) => {
             console.log(response.data);
             setComment('');
             setRating(0);
-            getAverageRating(beerToDisplay);
+            getAverageRating(liquorToDisplay);
         } catch (error) {
             console.error('Error submitting rating:', error);
         }
     }
 
-    async function getAverageRating(beer) {
+    async function getAverageRating(liquor) {
         try {
-            const response = await axios.get(buildPath('api/beerRatings'), {
-                params: { _id: beer._id }
+            const response = await axios.get(buildPath('api/liquorRatings'), {
+                params: { _id: liquor._id }
             });
             setAverageRating(response.data.avgRating);
         } catch (error) {
@@ -79,10 +79,10 @@ const Ratings = ({beerToDisplay, switchComp}) => {
         }
     }
 
-    async function getComments(beer) {
+    async function getComments(liquor) {
         try {
-            const response = await axios.get(buildPath('api/getBeerComments'), {
-                params: { _id: beer._id }
+            const response = await axios.get(buildPath('api/getLiquorComments'), {
+                params: { _id: liquor._id }
             });
             setComments(response.data.comments);
             setCurrentIndex(0);
@@ -94,9 +94,9 @@ const Ratings = ({beerToDisplay, switchComp}) => {
 
     return(
         <div>
-            <h1>{beerToDisplay.Name}</h1>
+            <h1>{liquorToDisplay.Name}</h1>
             <div className = "ratings-info">
-                <h1 className = "beer-info-header">Average Rating: </h1>
+                <h1 className = "liq-info-header">Average Rating: </h1>
                 <div className = "average-rating-container">
                     {[1, 2, 3, 4, 5].map((star) => (
                         <i
@@ -107,11 +107,8 @@ const Ratings = ({beerToDisplay, switchComp}) => {
                     ))}
                 </div>
 
-
                 <br></br>
 
-
-                {/* Also add a place to scroll through the reviews */}
                 <div className = "ratings-scroller-container">
                     <div className = "arrow-div">
                         <button className = "arrow" onClick={scrollLeft}>
@@ -134,7 +131,7 @@ const Ratings = ({beerToDisplay, switchComp}) => {
                 <br></br>
 
 
-                <h1 className = "beer-info-header">Rate Beer: </h1>
+                <h1 className = "liq-info-header">Rate Liquor: </h1>
                 <div className="my-rating-container">
                     {[1, 2, 3, 4, 5].map((star) => (
                         <i
@@ -156,4 +153,4 @@ const Ratings = ({beerToDisplay, switchComp}) => {
         </div>
     );
 }
-export default Ratings;
+export default LiquorRatings;

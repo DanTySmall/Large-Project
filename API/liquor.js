@@ -82,4 +82,85 @@ router.post('/unfavoriteLiquor', async(req, res) => {
     }
 })
 
+//User can comment and add a star rating. The rating, comment, and User Id gets added to array.
+router.post('/rateLiquor', async(req, res) => {
+    const db = getClient().db('AlcoholDatabase')
+    const {_id, UserId, Stars, Comment} = req.body
+    const LiquorId = ObjectId.createFromHexString(_id)
+
+    const updateRating = await db.collection('Liquor').updateOne(  //Checks if User already rated liquor. If rating already exists, the rating gets updated.
+        { _id: LiquorId, 'Ratings.UserId': UserId },
+        { $set: { 'Ratings.$.Rating': Stars, 'Ratings.$.Comment': Comment } }
+    );
+
+    if(updateRating.matchedCount === 0) { //If user has not rated the liquor, it adds the User Id with their rating into the Ratings array.
+        const addRating = await db.collection('Liquor').updateOne(
+            { _id: LiquorId },
+            { $push: { Ratings: { UserId: UserId, Rating: Stars, Comment: Comment } } }
+        )
+        res.status(200).json({addRating, message:"User has added their rating."})
+    }
+    else{
+        res.status(200).json({updateRating, message:"User has updated their rating."})
+    }
+})
+
+//Averages the total ratings users have given for a Liquor
+router.get('/liquorRatings', async(req, res) => {
+    const db = getClient().db('AlcoholDatabase')
+    const { _id } = req.query;
+    const LiquorId = ObjectId.createFromHexString(_id)
+
+    const result = await db.collection('Liquor').aggregate([ //Using MongoDB aggregation, able to filter document to avg and only display ratings.
+        {$match: {_id: LiquorId}},
+        { $project: { 
+            _id: 1, 
+            avgRating: { 
+                $cond: { 
+                    if: { $gt: [{ $size: "$Ratings" }, 0] }, 
+                    then: { $avg: "$Ratings.Rating" }, 
+                    else: 0 
+                } 
+            } 
+        }}
+    ]).toArray()
+
+    if(result.length > 0){
+        const avgRating = result[0].avgRating
+        res.status(200).json({avgRating, message:"Liquor's average rating has been calculated."})
+    }
+    else{
+        res.status(400).json({message:"Average rating could not be retrieved."})
+    }
+})
+
+router.get('/getLiquorComments', async (req, res) => {
+    const db = getClient().db('AlcoholDatabase');
+    const { _id } = req.query; // Use req.query to get the parameter from the query string
+    const LiquorId = ObjectId.createFromHexString(_id);
+
+    const result = await db.collection('Liquor').aggregate([
+        { $match: { _id: LiquorId } },
+        {
+            $project: {
+                _id: 1,
+                comments: {
+                    $cond: {
+                        if: { $gt: [{ $size: "$Ratings" }, 0] },
+                        then: "$Ratings",
+                        else: []
+                    }
+                }
+            }
+        }
+    ]).toArray();
+
+    if (result.length > 0) {
+        const comments = result[0].comments;
+        res.status(200).json({ comments });
+    } else {
+        res.status(400).json({ message: "Comments could not be retrieved." });
+    }
+});
+
 module.exports = router

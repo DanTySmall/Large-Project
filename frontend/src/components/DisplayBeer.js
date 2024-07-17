@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import BeerNutritionFacts from './BeerNutritionFacts.js';
-import Ratings from './Ratings.js';
+import BeerRatings from './BeerRatings.js';
 import '../css/BeerPage.css'
 
 const DisplayBeer = ({beer}) => {
@@ -16,7 +16,7 @@ const DisplayBeer = ({beer}) => {
 
     // Determine which component to display based on showRatings state
     const compToDisplay = showRatings ? (
-        <Ratings switchComp={switchComp} beerToDisplay = {beer} />
+        <BeerRatings switchComp={switchComp} beerToDisplay = {beer} />
     ) : (
         <BeerNutritionFacts switchComp={switchComp} beerToDisplay = {beer}/>
     );
