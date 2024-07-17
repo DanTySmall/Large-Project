@@ -846,3 +846,16 @@ input:checked + .slider:before {
   color: #333; 
   flex: 0 0 auto;
 }
+
+.selected-filter {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.clear-filter-button {
+  margin-top: 4px;
+  margin-left: 5px;
+  cursor: pointer;
+  color: red;
+}

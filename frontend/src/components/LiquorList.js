@@ -26,6 +26,11 @@ const LiquorList = () => {
     const [selectedLiquor, setSelectedLiquor] = useState(null);
     const [showDisplayLiquor, setShowDisplayLiquor] = useState(false);
     const [searchResults, setSearchResults] = useState([]);
+    const [filterSelection, setFilterSelection] = useState('');
+    const [filteredBeers, setFilteredBeers] = useState([]);
+    const [text, setText] = useState('');
+    const [validSearch, setValidSearch] = useState(true);
+    const [selectedFilterLabel, setSelectedFilterLabel] = useState('');
 
     useEffect(() => {
     }, [searchResults]);
@@ -50,9 +55,6 @@ const LiquorList = () => {
         setSelectedLiquor(liquor);
         setShowDisplayLiquor(true);
     };
-
-    const [text, setText] = useState('');
-    const [validSearch, setValidSearch] = useState(true);
 
     const handleBlur = () => {
         if(text === ''){
@@ -95,9 +97,6 @@ const LiquorList = () => {
         setValidSearch(true);
         showDisplayLiquor(!setShowDisplayLiquor);
     }
-
-    const [filterSelection, setFilterSelection] = useState('');
-    const [filteredBeers, setFilteredBeers] = useState([]);
 
     async function fetchAllLiquors(){
         try {
@@ -179,8 +178,17 @@ const LiquorList = () => {
     const handleFilterChange = (event) =>{
         const selection = event.target.value;
         setFilterSelection(selection);
+        const selectedLabel = event.target.options[event.target.selectedIndex].text;
+        setSelectedFilterLabel(selectedLabel);
     }
 
+    const handleClearFilter = () => {
+        setFilterSelection('');
+        setSelectedFilterLabel('');
+        setSearchResults([]);
+        setValidSearch(true);
+        setShowDisplayLiquor(false);
+    };
 
     return(
     <div className = "liq-list" id = "liqList">
@@ -195,7 +203,7 @@ const LiquorList = () => {
                 <button className="search-button" onClick={handleSearch} ><i className="bi bi-search"></i></button>
             </div>
             <div className="filter-container">
-                <select className="filter-select" onChange={handleFilterChange}>
+                <select className="filter-select" onChange={handleFilterChange} value={filterSelection}>
                     <option value="">Filter</option>
                     <option value="fav">Favorites</option>
                     <option value="whiskey">Whiskey and Scotch</option>
@@ -205,12 +213,13 @@ const LiquorList = () => {
                     <option value="tequila">Tequila</option>
                     <option value="brandy">Brandy and Congac</option>
                 </select>
+                {selectedFilterLabel && (
+                        <i className="bi bi-x-circle clear-filter-button" onClick={handleClearFilter}></i>
+                )}
             </div>
         </div>
         <div className = "liq-list-content">
             <div className = "scrollable-box">
-                {/* <p>searchResults : {searchResults.data}<br></br>validSearch: {validSearch.value}</p> */}
-
                 {validSearch ? (searchResults.length === 0 ?
                                     (Array.isArray(liquors) && liquors.map(liquor => (
                                         <ul id="sortedList" className = "sorted-list" key={liquor._id}>

@@ -28,6 +28,11 @@ const BeerList = ({switchComponents}) => {
     const [selectedBeer, setSelectedBeer] = useState(null);
     const [showDisplayBeer, setShowDisplayBeer] = useState(false);
     const [searchResults, setSearchResults] = useState([]);
+    const [text, setText] = useState('');
+    const [validSearch, setValidSearch] = useState(true);
+    const [filterSelection, setFilterSelection] = useState('');
+    const [filteredBeers, setFilteredBeers] = useState([]);
+    const [selectedFilterLabel, setSelectedFilterLabel] = useState('');
 
     useEffect(() => {
     }, [searchResults]);
@@ -35,7 +40,6 @@ const BeerList = ({switchComponents}) => {
     useEffect(() => {
         async function fetchAllBeers(){
             try {
-                //const response = await axios.get('http://localhost:5000/api/getAllBeers');
                 const response = await axios.get(buildPath('api/getAllBeers'));
                 let beersData = response.data.beers;
                 beersData.sort((a, b) => a.Name.localeCompare(b.Name));
@@ -54,9 +58,6 @@ const BeerList = ({switchComponents}) => {
         setShowDisplayBeer(true);
     };
 
-    const [text, setText] = useState('');
-    const [validSearch, setValidSearch] = useState(true);
-
     const handleBlur = () => {
         if(text === ''){
             document.getElementById('beer-search-bar').value = 'Search';
@@ -73,7 +74,6 @@ const BeerList = ({switchComponents}) => {
         document.getElementById('beer-search-bar').value = 'Search';
 
         try{
-            //const resp = await axios.post('http://localhost:5000/api/searchBeer', {
             const resp = await axios.post(buildPath('api/searchBeer'), {
                 Name: text
             }, {
@@ -100,9 +100,6 @@ const BeerList = ({switchComponents}) => {
         setShowDisplayBeer(!showDisplayBeer);
     }
 
-    const [filterSelection, setFilterSelection] = useState('');
-    const [filteredBeers, setFilteredBeers] = useState([]);
-
     async function fetchAllBeers(){
         try {
             const response = await axios.get(buildPath('api/getAllBeers'));
@@ -126,7 +123,6 @@ const BeerList = ({switchComponents}) => {
                 setValidSearch(true);
                 setSearchResults([]);
                 setSearchResults(FavBeerFilter);
-
             }
             else if (filterSelection === "IPAs") {
                 setShowDisplayBeer(false);
@@ -197,8 +193,17 @@ const BeerList = ({switchComponents}) => {
     const handleFilterChange = (event) =>{
         const selection = event.target.value;
         setFilterSelection(selection);
+        const selectedLabel = event.target.options[event.target.selectedIndex].text;
+        setSelectedFilterLabel(selectedLabel);
     }
 
+    const handleClearFilter = () => {
+        setFilterSelection('');
+        setSelectedFilterLabel('');
+        setSearchResults([]);
+        setValidSearch(true);
+        setShowDisplayBeer(false);
+    };
 
     return(
     <div className = "beer-list" id = "beerList">
@@ -213,7 +218,7 @@ const BeerList = ({switchComponents}) => {
                 <button className="search-button" onClick={handleSearch} ><i className="bi bi-search"></i></button>
             </div>
             <div className="filter-container">
-                <select className="filter-select" onChange={handleFilterChange}>
+                <select className="filter-select" onChange={handleFilterChange} value={filterSelection}>
                     <option value="">Filter</option>
                     <option value="fav">Favorites</option>
                     <option value="IPAs">IPAs</option>
@@ -225,12 +230,13 @@ const BeerList = ({switchComponents}) => {
                     <option value="calories">Calories &lt; 125</option>
                     <option value="origin">Origin: USA</option>
                 </select>
+                {selectedFilterLabel && (
+                        <i className="bi bi-x-circle clear-filter-button" onClick={handleClearFilter}></i>
+                )}
             </div>
         </div>
         <div className = "beer-list-content">
             <div className = "scrollable-box">
-                {/* <p>searchResults : {searchResults.data}<br></br>validSearch: {validSearch.value}</p> */}
-
                 {validSearch ? (searchResults.length === 0 ?
                                     (Array.isArray(beers) && beers.map(beer => (
                                         <ul id="sortedList" className = "sorted-list" key={beer._id}>
@@ -254,9 +260,6 @@ const BeerList = ({switchComponents}) => {
                         <button className = "search-back-button" onClick = {handleSearchBackButton}><i className="bi bi-arrow-left"></i>Back</button>
                         </div>)
             }
-
-
-
             </div>
             {validSearch && showDisplayBeer && selectedBeer && (
                 <DisplayBeer beer={selectedBeer} />

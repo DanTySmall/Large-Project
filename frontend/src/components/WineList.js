@@ -26,6 +26,11 @@ const WineList = () => {
     const [selectedWine, setSelectedWine] = useState(null);
     const [showDisplayWine, setShowDisplayWine] = useState(false);
     const [searchResults, setSearchResults] = useState([]);
+    const [filterSelection, setFilterSelection] = useState('');
+    const [filteredBeers, setFilteredBeers] = useState([]);
+    const [text, setText] = useState('');
+    const [validSearch, setValidSearch] = useState(true);    
+    const [selectedFilterLabel, setSelectedFilterLabel] = useState('');
 
     useEffect(() => {
     }, [searchResults]);
@@ -50,9 +55,6 @@ const WineList = () => {
         setSelectedWine(wine);
         setShowDisplayWine(true);
     };
-
-    const [text, setText] = useState('');
-    const [validSearch, setValidSearch] = useState(true);
 
     const handleBlur = () => {
         if(text === ''){
@@ -95,9 +97,6 @@ const WineList = () => {
         setValidSearch(true);
         showDisplayWine(!setShowDisplayWine);
     }
-
-    const [filterSelection, setFilterSelection] = useState('');
-    const [filteredBeers, setFilteredBeers] = useState([]);
 
     async function fetchAllWines(){
         try {
@@ -172,7 +171,17 @@ const WineList = () => {
     const handleFilterChange = (event) =>{
         const selection = event.target.value;
         setFilterSelection(selection);
+        const selectedLabel = event.target.options[event.target.selectedIndex].text;
+        setSelectedFilterLabel(selectedLabel);
     }
+
+    const handleClearFilter = () => {
+        setFilterSelection('');
+        setSelectedFilterLabel('');
+        setSearchResults([]);
+        setValidSearch(true);
+        setShowDisplayWine(false);
+    };
 
 
     return(
@@ -188,7 +197,7 @@ const WineList = () => {
                 <button className="search-button" onClick={handleSearch} ><i className="bi bi-search"></i></button>
             </div>
             <div className="filter-container">
-                <select className="filter-select" onChange={handleFilterChange}>
+                <select className="filter-select" onChange={handleFilterChange} value={filterSelection}>
                     <option value="">Filter</option>
                     <option value="fav">Favorites</option>
                     <option value="red">Red</option>
@@ -197,12 +206,13 @@ const WineList = () => {
                     <option value="calories">Calories &lt; 125</option>
                     <option value="origin">Origin: USA</option>
                 </select>
+                {selectedFilterLabel && (
+                        <i className="bi bi-x-circle clear-filter-button" onClick={handleClearFilter}></i>
+                )}
             </div>
         </div>
         <div className = "wine-list-content">
             <div className = "scrollable-box">
-                {/* <p>searchResults : {searchResults.data}<br></br>validSearch: {validSearch.value}</p> */}
-
                 {validSearch ? (searchResults.length === 0 ?
                                     (Array.isArray(wines) && wines.map(wine => (
                                         <ul id="sortedList" className = "sorted-list" key={wine._id}>
