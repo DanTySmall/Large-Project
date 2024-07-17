@@ -766,6 +766,7 @@ input:checked + .slider:before {
   max-width: 100%;
   position: relative;
   overflow-y: scroll;
+  margin-top: 10px;
 }
 
 .ratings-scroller-container{
@@ -777,6 +778,7 @@ input:checked + .slider:before {
   border: solid;
   border-radius: 10px;
   border-color: rgba(255, 152, 0, 75%);
+  margin: 10px;
 }
 
 .ratings-scroller {

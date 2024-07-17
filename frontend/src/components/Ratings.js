@@ -1,26 +1,44 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useContext } from 'react';
 import axios from 'axios';
+import { UserContext } from './userProvider';
 
 const Ratings = ({beerToDisplay, switchComp}) => {
+    const app_name = 'paradise-pours-4be127640468'
+    function buildPath(route)
+    {
+        if (process.env.NODE_ENV === 'production')
+        {
+            return 'https://' + app_name + '.herokuapp.com/' + route;
+        }
+        else
+        {
+            return 'http://localhost:5000/' + route;
+        }
+    }
+
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState('');
     const [currentIndex, setCurrentIndex] = useState(0);
     const [hoverRating, setHoverRating] = useState(0);
+    const [averageRating, setAverageRating] = useState(0);
+    const { userID } = useContext(UserContext);
+    const [comments, setComments] = useState([]);
 
-
-    const pastRatings = [5, 4, 3, 5, 2, 4, 5]; // Example ratings array
+    useEffect(() => {
+        getAverageRating(beerToDisplay);
+        getComments(beerToDisplay);
+    }, [beerToDisplay]);
 
     const scrollLeft = () => {
-        setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : pastRatings.length - 1));
+        setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : comments.length - 1));
     };
 
     const scrollRight = () => {
-        setCurrentIndex((prevIndex) => (prevIndex < pastRatings.length - 1 ? prevIndex + 1 : 0));
+        setCurrentIndex((prevIndex) => (prevIndex < comments.length - 1 ? prevIndex + 1 : 0));
     };
 
     async function handleClick(starRating){
         setRating(starRating);
-        //Also need to call the rateBeer API endpoint when I am able to get the UserId
     }
 
     const handleMouseEnter = (star) => {
@@ -33,23 +51,46 @@ const Ratings = ({beerToDisplay, switchComp}) => {
         setHoverRating(0);
     };
 
-    useEffect(() => {
-        // getRatings(beerToDisplay);
-    }, [beerToDisplay]);
+    async function handleComment() {
+        try {
+            const response = await axios.post(buildPath('api/rateBeer'), {
+                _id: beerToDisplay._id,
+                UserId: userID,
+                Stars: rating,
+                Comment: comment,
+            });
+            console.log(response.data);
+            setComment('');
+            setRating(0);
+            getAverageRating(beerToDisplay);
+        } catch (error) {
+            console.error('Error submitting rating:', error);
+        }
+    }
 
-    // async function getRatings(beer){
-    //     try{
-    //         const response = await axios.get('http://localhost:5000/api/beerRatings', {
-    //                 _id: beer._id
-    //             }
-    //         );
+    async function getAverageRating(beer) {
+        try {
+            const response = await axios.get(buildPath('api/beerRatings'), {
+                params: { _id: beer._id }
+            });
+            setAverageRating(response.data.avgRating);
+        } catch (error) {
+            console.error('Error fetching average rating:', error);
+        }
+    }
 
-    //         console.log(response);
-    //     }
-    //     catch(error){
-    //         console.log(error);
-    //     }
-    // }
+    async function getComments(beer) {
+        try {
+            const response = await axios.get(buildPath('api/getBeerComments'), {
+                params: { _id: beer._id }
+            });
+            setComments(response.data.comments);
+            setCurrentIndex(0);
+        } catch (error) {
+            console.error('Error fetching comments:', error);
+        }
+    }
+
 
     return(
         <div>
@@ -57,18 +98,20 @@ const Ratings = ({beerToDisplay, switchComp}) => {
             <div className = "ratings-info">
                 <h1 className = "beer-info-header">Average Rating: </h1>
                 <div className = "average-rating-container">
-                    <i className="bi bi-star rating-star"></i>
-                    <i className="bi bi-star rating-star"></i>
-                    <i className="bi bi-star rating-star"></i>
-                    <i className="bi bi-star rating-star"></i>
-                    <i className="bi bi-star rating-star"></i>
+                    {[1, 2, 3, 4, 5].map((star) => (
+                        <i
+                            key={star}
+                            className={`bi rating-star ${star <= averageRating ? 'bi-star-fill' : 'bi-star'}`}
+                            style={{ color: star <= averageRating ? 'gold' : '#353432' }}
+                        ></i>
+                    ))}
                 </div>
 
 
                 <br></br>
 
 
-                {/* Also add a place to scroll through the reviews*/}
+                {/* Also add a place to scroll through the reviews */}
                 <div className = "ratings-scroller-container">
                     <div className = "arrow-div">
                         <button className = "arrow" onClick={scrollLeft}>
@@ -77,7 +120,7 @@ const Ratings = ({beerToDisplay, switchComp}) => {
                     </div>
                     <div className="ratings-box">
                         <div className = "cur-displayed-rating">
-                            {pastRatings[currentIndex]}
+                            {comments.length > 0 ? comments[currentIndex]?.Comment || 'No comments yet' : 'No comments yet'}
                         </div>
                     </div>
                     <div className = "arrow-div">
@@ -105,8 +148,8 @@ const Ratings = ({beerToDisplay, switchComp}) => {
                     ))}
                 </div>
                 <div className="comment-container">
-                    <input placeholder="Comment" className="comment-bar" type="text" onChange={(e) => setComment(e.target.value)} />
-                    <button className="comment-button" /*onClick={handleComment}*/ ><i className="bi bi-arrow-up-circle"></i></button>
+                    <input placeholder="Comment" className="comment-bar" type="text" value={comment} onChange={(e) => setComment(e.target.value)} />
+                    <button className="comment-button" onClick={handleComment} ><i className="bi bi-arrow-up-circle"></i></button>
                 </div>
                 <button onClick={switchComp} className = "ratings-button"><i className="bi bi-arrow-left"></i>Back</button>
             </div>
