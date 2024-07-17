@@ -10,7 +10,9 @@ router.post('/searchBeer', async(req, res) => {
 
     let filter = {}
     if(Name){
-        filter.Name = {$regex: Name, $options: 'i'}
+        // filter.Name = {$regex: Name, $options: 'i'}
+        const escapedName = Name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        filter.Name = { $regex: escapedName, $options: 'i' };
     }
     if(Company){
         filter.Company = {$regex: Company, $options: 'i'}
@@ -22,7 +24,7 @@ router.post('/searchBeer', async(req, res) => {
         filter.Origin = {$regex: Origin, $options: 'i'}
     }
 
-    const beer = await db.collection('Beer').find(filter).toArray()
+    const beer = await db.collection('Beer').find(filter).toArray();
     
     if(beer.length > 0){
         res.status(200).json({beer})

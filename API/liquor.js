@@ -11,7 +11,9 @@ router.post('/searchLiquor', async(req, res) => {
 
     let filter = {}
     if(Name){
-        filter.Name = {$regex: Name, $options: 'i'}
+        // filter.Name = {$regex: Name, $options: 'i'}
+        const escapedName = Name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        filter.Name = { $regex: escapedName, $options: 'i' };
     }
     if(Company){
         filter.Company = {$regex: Company, $options: 'i'}
