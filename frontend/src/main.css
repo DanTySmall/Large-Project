@@ -846,3 +846,48 @@ input:checked + .slider:before {
   color: #333; 
   flex: 0 0 auto;
 }
+
+.home-footer {
+  background-color: rgba(197, 174, 26, 0.75);
+  width: 100%;
+  padding: 0;
+  text-align: center;
+  text-decoration-color: white;
+  bottom: 0;
+  position: absolute;
+  height: 8%;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+}
+
+.footer-text{
+  text-align: left;
+  align-content: center;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.github-logo-container{
+  height: 100%;
+  align-self: center;
+  aspect-ratio: 1 / 1 ;
+}
+
+
+.github-logo{
+  height: 90%;
+  margin: 5%;
+  opacity: 88%;
+  cursor: pointer;
+}
+
+.github-logo:hover{
+  color: rgb(25, 0, 255, .75);
+}
+
+.disclaimer-container{
+  flex: 1;
+  text-align: end;
+  align-content: end;
+}

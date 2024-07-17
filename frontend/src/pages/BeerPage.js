@@ -2,6 +2,7 @@ import React, { useState, } from 'react';
 import BeerHeader from '../components/BeerHeader.js';
 import BeerOfTheDay from '../components/BeerOfTheDay.js';
 import BeerList from '../components/BeerList.js';
+import Footer from '../components/BeerFooter.js';
 
 function BeerPage() {
     const [showBeerOfTheDay, setShowBeerOfTheDay] = useState(true);
@@ -18,11 +19,15 @@ function BeerPage() {
     );
 
     return (
-        <div className="beer-page">
-            <div className="beer-content">
-                <BeerHeader />
-                {componentToDisplay}
+        <div className = "page">
+            <div className="beer-page">
+                <div className="beer-content">
+                    <BeerHeader />
+                    {componentToDisplay}
+                </div>
             </div>
+            
+            <Footer />
         </div>
     );
 }
