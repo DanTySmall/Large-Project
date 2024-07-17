@@ -27,7 +27,6 @@ const LiquorList = () => {
     const [showDisplayLiquor, setShowDisplayLiquor] = useState(false);
     const [searchResults, setSearchResults] = useState([]);
     const [filterSelection, setFilterSelection] = useState('');
-    const [filteredBeers, setFilteredBeers] = useState([]);
     const [text, setText] = useState('');
     const [validSearch, setValidSearch] = useState(true);
     const [selectedFilterLabel, setSelectedFilterLabel] = useState('');
@@ -51,25 +50,25 @@ const LiquorList = () => {
         fetchAllLiquors();
     }, []);
 
-    const handleBeerClick = (liquor) => {
+    const handleLiquorClick = (liquor) => {
         setSelectedLiquor(liquor);
         setShowDisplayLiquor(true);
     };
 
     const handleBlur = () => {
         if(text === ''){
-            document.getElementById('beer-search-bar').value = 'Search';
+            document.getElementById('liq-search-bar').value = 'Search';
         }
     }
 
     const handleFocus = () => {
         if(text === ''){
-            document.getElementById('beer-search-bar').value = '';
+            document.getElementById('liq-search-bar').value = '';
         }
     }
 
     async function handleSearch(){
-        document.getElementById('beer-search-bar').value = 'Search';
+        document.getElementById('liq-search-bar').value = 'Search';
 
         try{
             const resp = await axios.post(buildPath('api/searchLiquor'), {
@@ -95,7 +94,7 @@ const LiquorList = () => {
     async function handleSearchBackButton(){
         setSearchResults([]);
         setValidSearch(true);
-        showDisplayLiquor(!setShowDisplayLiquor);
+        setShowDisplayLiquor(!showDisplayLiquor);
     }
 
     async function fetchAllLiquors(){
@@ -223,14 +222,14 @@ const LiquorList = () => {
                 {validSearch ? (searchResults.length === 0 ?
                                     (Array.isArray(liquors) && liquors.map(liquor => (
                                         <ul id="sortedList" className = "sorted-list" key={liquor._id}>
-                                            <li className="liq-list-item" onClick={() => handleBeerClick(liquor)}> {liquor.Name} </li>
+                                            <li className="liq-list-item" onClick={() => handleLiquorClick(liquor)}> {liquor.Name} </li>
                                         </ul>
                 ))) :
                                     (Array.isArray(searchResults) &&
                                         <>
                                             {searchResults.map(liquor => (
                                                 <ul id="sortedList" className = "sorted-list" key={liquor._id}>
-                                                    <li className="liq-list-item" onClick={() => handleBeerClick(liquor)}> {liquor.Name} </li>
+                                                    <li className="liq-list-item" onClick={() => handleLiquorClick(liquor)}> {liquor.Name} </li>
                                                 </ul>
                                             ))}
                                             <button className = "search-back-button" onClick = {handleSearchBackButton}><i className="bi bi-arrow-left"></i>Back</button>
