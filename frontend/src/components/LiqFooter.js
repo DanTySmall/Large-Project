@@ -17,12 +17,12 @@ function LiqFooter(){
         <div className = "liq-footer">
             <div className = "github-logo-container">
                 <a onClick = {GitHubLinkOnClickHandler} href = "https://github.com/DanTySmall/Large-Project">
-                    <img src = {GitHubIcon} className = "github-logo"></img>
+                    <img src = {GitHubIcon} className = "github-logo" alt=''></img>
                 </a>
             </div>
             <div className = "footer-text">
                 <p>
-                    <i class="bi bi-arrow-left-square"></i> Follow this link to view our GitHub
+                    <i className="bi bi-arrow-left-square"></i> Follow this link to view our GitHub
                 </p>
             </div>
             <div className = "disclaimer-container">

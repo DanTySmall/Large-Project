@@ -427,7 +427,7 @@
     text-decoration-color: white;
     bottom: 0;
     position: absolute;
-    height: 8%;
+    height: 5%;
     display: flex;
     flex-direction: row;
     justify-content: start;
@@ -495,7 +495,7 @@
       right: 5%;
   }
   .beer-page {
-      height: 900px; /* Change height to auto for smaller screens */
+      height: 950px; /* Change height to auto for smaller screens */
   }
 }
 
