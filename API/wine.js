@@ -93,7 +93,7 @@ router.post('/rateWine', async(req, res) => {
     );
 
     if(updateRating.matchedCount === 0) { //If user has not rated the wine, it adds the User Id with their rating into the Ratings array.
-        const addRating = await db.collection('Beer').updateOne(
+        const addRating = await db.collection('Wine').updateOne(
             { _id: WineId },
             { $push: { Ratings: { UserId: UserId, Rating: Stars, Comment: Comment } } }
         )
@@ -104,7 +104,7 @@ router.post('/rateWine', async(req, res) => {
     }
 })
 
-//Averages the total ratings users have given for a Beer
+//Averages the total ratings users have given for a Wine
 router.get('/wineRatings', async(req, res) => {
     const db = getClient().db('AlcoholDatabase')
     const { _id } = req.query;

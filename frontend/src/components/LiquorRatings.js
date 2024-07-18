@@ -63,6 +63,7 @@ const LiquorRatings = ({liquorToDisplay, switchComp}) => {
             setComment('');
             setRating(0);
             getAverageRating(liquorToDisplay);
+            getComments(liquorToDisplay);
         } catch (error) {
             console.error('Error submitting rating:', error);
         }
@@ -117,7 +118,19 @@ const LiquorRatings = ({liquorToDisplay, switchComp}) => {
                     </div>
                     <div className="ratings-box">
                         <div className = "cur-displayed-rating">
-                            {comments.length > 0 ? comments[currentIndex]?.Comment || 'No comments yet' : 'No comments yet'}
+                            <div className = "comment-stars-container">
+                                    {comments.length > 0 ? ([1, 2, 3, 4, 5].map((star) => (
+                                                                <i
+                                                                    key={star}
+                                                                    className={`bi comment-stars ${star <= comments[currentIndex]?.Rating ? 'bi-star-fill' : 'bi-star'}`}
+                                                                    style={{ color: star <= comments[currentIndex]?.Rating ? 'gold' : '#353432' }}
+                                                                ></i>
+                                                                )))
+                                                        : ''}
+                                </div>
+                            <div className = "comment-box">
+                                {comments.length > 0 ? comments[currentIndex]?.Comment || 'No comments yet' : 'No comments yet'}
+                            </div>
                         </div>
                     </div>
                     <div className = "arrow-div">

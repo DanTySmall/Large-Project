@@ -752,6 +752,12 @@ input:checked + .slider:before {
   margin-right: 2px;
 }
 
+.comment-stars{
+  font-size: 1.75rem;
+  margin-left: 1px;
+  margin-right: 1px;
+}
+
 .within-rating-star{
   -webkit-text-stroke: 3px rgb(0, 0, 0); /* Add a black outline to the stars */
 }
@@ -790,10 +796,10 @@ input:checked + .slider:before {
 }
 
 .ratings-box {
-  display: flex;
   height: 100%;
   scroll-behavior: smooth;
-  width: 80%
+  width: 80%;
+  position: relative;
 }
 
 .cur-displayed-rating{
@@ -804,6 +810,21 @@ input:checked + .slider:before {
   align-items: center;
   justify-content: center;
   border-radius: 5px;
+  height: 100%;
+  width: 100%;
+  /* flex-direction: column; */
+}
+
+.comment-stars-container{
+  flex-direction: row;
+  align-self: start;
+  position: absolute;
+  left: 0;
+}
+
+.comment-box{
+  align-self: center;
+  justify-self: center;
 }
 
 .arrow-div{

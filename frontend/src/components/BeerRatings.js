@@ -59,10 +59,10 @@ const BeerRatings = ({beerToDisplay, switchComp}) => {
                 Stars: rating,
                 Comment: comment,
             });
-            console.log(response.data);
             setComment('');
             setRating(0);
             getAverageRating(beerToDisplay);
+            getComments(beerToDisplay)
         } catch (error) {
             console.error('Error submitting rating:', error);
         }
@@ -86,11 +86,11 @@ const BeerRatings = ({beerToDisplay, switchComp}) => {
             });
             setComments(response.data.comments);
             setCurrentIndex(0);
+            console.log(response.data);
         } catch (error) {
             console.error('Error fetching comments:', error);
         }
     }
-
 
     return(
         <div>
@@ -117,7 +117,19 @@ const BeerRatings = ({beerToDisplay, switchComp}) => {
                     </div>
                     <div className="ratings-box">
                         <div className = "cur-displayed-rating">
-                            {comments.length > 0 ? comments[currentIndex]?.Comment || 'No comments yet' : 'No comments yet'}
+                            <div className = "comment-stars-container">
+                                {comments.length > 0 ? ([1, 2, 3, 4, 5].map((star) => (
+                                                            <i
+                                                                key={star}
+                                                                className={`bi comment-stars ${star <= comments[currentIndex]?.Rating ? 'bi-star-fill' : 'bi-star'}`}
+                                                                style={{ color: star <= comments[currentIndex]?.Rating ? 'gold' : '#353432' }}
+                                                            ></i>
+                                                            )))
+                                                    : ''}
+                            </div>
+                            <div className = "comment-box">
+                                {comments.length > 0 ? comments[currentIndex]?.Comment || 'No comments yet' : 'No comments yet'}
+                            </div>
                         </div>
                     </div>
                     <div className = "arrow-div">
