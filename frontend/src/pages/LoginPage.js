@@ -139,14 +139,7 @@ function LoginPage(){
             window.location.href = '/';
         }
         catch(error){
-            if(error.response.status === 400){
-                const errorMessage = error.response.data.error;
-                setErrorMessage(errorMessage)
-                missFielderrorElement.style.display = 'block';
-                usernameErrorElement.style.display = 'none';
-                emailErrorElement.style.display = 'none';
-            }
-            else if(error.response.status === 409){
+            if(error.response.status === 409){
                 const errorMessage = error.response.data.error;
                 if(errorMessage === 'Username already exists'){
                     console.log("Username already exists");
