@@ -1,13 +1,13 @@
 import React, {useState, useEffect, useContext} from 'react';
 import '../main.css';
 import '../css/WinePage.css';
-import WineGlass from '../images/wine-glass.png';
+import WineGlass from '../images/wine-glass1.png';
 import axios from 'axios';
 import DisplayWine from './DisplayWine.js';
 import { UserContext } from './userProvider';
 
 
-const WineList = () => {
+const WineList = ({switchComponents}) => {
     const app_name = 'paradise-pours-4be127640468'
     function buildPath(route)
     {
@@ -243,7 +243,7 @@ const WineList = () => {
                 <DisplayWine wine={selectedWine} />
             )}
         </div>
-        {/* <button onClick={switchComponents} className = "beer-list-button"><i className="bi bi-arrow-left"></i>Back</button> */}
+        <button onClick={switchComponents} className = "wine-list-button"><i className="bi bi-arrow-left"></i>Back</button>
     </div>
     );
 }

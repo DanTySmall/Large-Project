@@ -7,7 +7,7 @@ import { UserContext } from './userProvider';
 import DisplayLiquor from './DisplayLiquor.js';
 
 
-const LiquorList = () => {
+const LiquorList = ({switchComponents}) => {
     const app_name = 'paradise-pours-4be127640468'
     function buildPath(route)
     {
@@ -250,6 +250,8 @@ const LiquorList = () => {
                 <DisplayLiquor liquor={selectedLiquor} />
             )}
         </div>
+
+        <button onClick={switchComponents} className = "liq-list-button"><i className="bi bi-arrow-left"></i>Back</button>
     </div>
     );
 }

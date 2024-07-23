@@ -110,9 +110,9 @@ const WineRatings = ({wineToDisplay, switchComp}) => {
 
                 <br></br>
 
-                <div className = "ratings-scroller-container">
+                <div className = "wine-ratings-scroller-container">
                     <div className = "arrow-div">
-                        <button className = "arrow" onClick={scrollLeft}>
+                        <button className = "wine-arrow" onClick={scrollLeft}>
                             <p className="left-arrow">&lt;</p>
                         </button>
                     </div>
@@ -134,7 +134,7 @@ const WineRatings = ({wineToDisplay, switchComp}) => {
                         </div>
                     </div>
                     <div className = "arrow-div">
-                        <button className = "arrow" onClick={scrollRight}>
+                        <button className = "wine-arrow" onClick={scrollRight}>
                             <p className="right-arrow">&gt;</p>
                         </button>
                     </div>
@@ -161,7 +161,7 @@ const WineRatings = ({wineToDisplay, switchComp}) => {
                     <input placeholder="Comment" className="comment-bar" type="text" value={comment} onChange={(e) => setComment(e.target.value)} maxLength="50" />
                     <button className="comment-button" onClick={handleComment} ><i className="bi bi-arrow-up-circle"></i></button>
                 </div>
-                <button onClick={switchComp} className = "ratings-button"><i className="bi bi-arrow-left"></i>Back</button>
+                <button onClick={switchComp} className = "wine-ratings-button"><i className="bi bi-arrow-left"></i>Back</button>
             </div>
         </div>
     );

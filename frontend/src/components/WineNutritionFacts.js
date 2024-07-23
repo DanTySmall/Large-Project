@@ -34,7 +34,7 @@ const WineNutritionFacts = ({wineToDisplay, switchComp}) => {
                         <WineFavButton drink={wineToDisplay} />
                     </div>
                 </div>
-                <button onClick={switchComp} className = "ratings-button">Rate Wine<i className="bi bi-arrow-right"></i></button>
+                <button onClick={switchComp} className = "wine-ratings-button">Rate Wine<i className="bi bi-arrow-right"></i></button>
             </div>
         </div>
     );

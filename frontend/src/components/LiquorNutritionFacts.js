@@ -34,7 +34,7 @@ const LiquorNutritionFacts = ({liquorToDisplay, switchComp}) => {
                         <LiquorFavButton drink={liquorToDisplay} />
                     </div>
                 </div>
-                <button onClick={switchComp} className = "ratings-button">Rate Liquor<i className="bi bi-arrow-right"></i></button>
+                <button onClick={switchComp} className = "liquor-ratings-button">Rate Liquor<i className="bi bi-arrow-right"></i></button>
             </div>
         </div>
     );
