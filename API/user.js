@@ -128,9 +128,16 @@ router.get('/changePassword/:uniqueString', async(req,res) => {
 //Change Password - Requires the user to successfully input a new password and the same password again to confirm it
 router.post('/changePassword/:uniqueString', async(req,res) => {
     const db = getClient().db('AlcoholDatabase')
-    
+
     const{uniqueString} = req.params
     const{newPassword, confirmPassword} = req.body
+
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/;
+    
+    if (!passwordRegex.test(newPassword)) {
+        return res.status(400).json({ error: 'New Password does not meet the criteria.' });
+    }
+
     console.log(newPassword, confirmPassword)
     if(newPassword === confirmPassword){    
         const result = await db.collection('Users').updateOne({ uniqueString: uniqueString }, { $set: { Password: newPassword } })
