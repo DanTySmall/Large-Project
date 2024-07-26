@@ -8,7 +8,25 @@ const router = express.Router();
 // User Registration
 router.post('/register', async (req, res, next) => {
     const db = getClient().db('AlcoholDatabase')
-    const {FirstName, LastName, Username, Password, Email, Phone} = req.body //May need to be adjusted if we need to have email verification
+    const {FirstName, LastName, Username, Password, Email, Phone} = req.body
+
+    const usernameRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9-_]{3,18}$/;
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^\d{3}-\d{3}-\d{4}$/;
+
+    if (!usernameRegex.test(Username)) {
+        return res.status(400).json({ error: 'Username does not meet the criteria.' });
+    }
+    if (!passwordRegex.test(Password)) {
+        return res.status(400).json({ error: 'Password does not meet the criteria.' });
+    }
+    if (!emailRegex.test(Email)) {
+        return res.status(400).json({ error: 'Email is not valid.' });
+    }
+    if (!phoneRegex.test(Phone)) {
+        return res.status(400).json({ error: 'Phone number is not valid.' });
+    }
 
     //Verification to check if username and email exists in the database
     let results = await db.collection('Users').find({ Username:Username}).toArray()
@@ -110,9 +128,16 @@ router.get('/changePassword/:uniqueString', async(req,res) => {
 //Change Password - Requires the user to successfully input a new password and the same password again to confirm it
 router.post('/changePassword/:uniqueString', async(req,res) => {
     const db = getClient().db('AlcoholDatabase')
-    
+
     const{uniqueString} = req.params
     const{newPassword, confirmPassword} = req.body
+
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/;
+    
+    if (!passwordRegex.test(newPassword)) {
+        return res.status(400).json({ error: 'New Password does not meet the criteria.' });
+    }
+
     console.log(newPassword, confirmPassword)
     if(newPassword === confirmPassword){    
         const result = await db.collection('Users').updateOne({ uniqueString: uniqueString }, { $set: { Password: newPassword } })
