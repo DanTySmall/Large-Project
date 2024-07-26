@@ -80,7 +80,7 @@ const LiquorFavButton = ({drink = {} }) =>{
     }
 
     return(
-        <button className = "fav-button" onClick = {changeFav}>
+        <button aria-label = "Favorite Button" className = "fav-button" onClick = {changeFav}>
             {favBoolean ? <i className="bi bi-heart-fill"></i> : <i className = "bi bi-heart"></i>}
         </button>
     )

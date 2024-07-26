@@ -17,7 +17,7 @@ function HomeFooter(){
         <div className = "home-footer">
             <div className = "github-logo-container">
                 <a onClick = {GitHubLinkOnClickHandler} href = "https://github.com/DanTySmall/Large-Project">
-                    <img src = {GitHubIcon} className = "github-logo" alt=''></img>
+                    <img src = {GitHubIcon} className = "github-logo" alt='GitHub Logo'></img>
                 </a>
             </div>
             <div className = "footer-text">
