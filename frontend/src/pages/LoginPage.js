@@ -27,6 +27,7 @@ function LoginPage(){
     const [isLogin, setIsLogin] = useState(true);
     const [lastLoginAttempt, setLastLoginAttempt] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
 
     const formData = isLogin ? { "Username": username, "Password": password } : { "FirstName": firstName, "LastName": lastName, "Username": username, "Password": password, "Email": email, "Phone": phone };
 
@@ -192,7 +193,11 @@ function LoginPage(){
         setPhone(formattedPhoneNumber);
     };
 
-    return(
+    const togglePasswordVisibility = () => {
+        setShowPassword(prevShowPassword => !prevShowPassword);
+    };
+
+    return (
         <div className="login-page">
             <div className="loginContent">
                 <LoginHeader />
@@ -211,7 +216,7 @@ function LoginPage(){
                             </label>
                         </div>
                     </div>
-                    <div className = "input-form">
+                    <div className="input-form">
                         { !isLogin && (
                             <>
                                 <div className="label">First Name</div>
@@ -225,28 +230,55 @@ function LoginPage(){
                                 <div className="label">Username</div>
                                 <input className="input-box" type="text" id="username" name="username" value={username} onChange={(e) => setUsername(e.target.value)} required pattern="(?=.*[a-zA-Z])[a-zA-Z0-9-_]{3,18}$"/>
                                 <div className="label">Password</div>
-                                <input className="input-box" type="password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} required pattern="(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%^&*]).{8,32}"/>
+                                <div className="password-input-wrapper">
+                                    <input
+                                        className="input-box"
+                                        type={showPassword ? "text" : "password"}
+                                        id="password"
+                                        name="password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        required
+                                        pattern="(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%^&*]).{8,32}"
+                                    />
+                                    <button type="button" className="toggle-password-btn" onClick={togglePasswordVisibility}>
+                                        {showPassword ? "Hide" : "Show"}
+                                    </button>
+                                </div>
                             </>
                         )}
                         { isLogin && (
-                            <>                            
+                            <>
                                 <div className="label">Username</div>
                                 <input className="input-box" type="text" id="username" name="username" value={username} onChange={(e) => setUsername(e.target.value)} required pattern="(?=.*[a-zA-Z])[a-zA-Z0-9-_]{3,18}$"/>
                                 <div className="label">Password</div>
-                                <input className="input-box" type="password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} required pattern="(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%^&*]).{8,32}"/>
+                                <div className="password-input-wrapper">
+                                    <input
+                                        className="input-box"
+                                        type={showPassword ? "text" : "password"}
+                                        id="password"
+                                        name="password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        required
+                                        pattern="(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%^&*]).{8,32}"
+                                    />
+                                    <button type="button" className="toggle-password-btn" onClick={togglePasswordVisibility}>
+                                        {showPassword ? "Hide" : "Show"}
+                                    </button>
+                                </div>
                             </>
                         )}
-                        
                     </div>
                     <button type="button" onClick={isLogin ? loginButtonHandler : registerButtonHandler} className="login-button">{isLogin ? "Login" : "Register"}</button>
                     
                     <div id="miss-field-error" className="login-error">{errorMessage}</div>
-                    <div id="error" className="login-error">Incorrect username or password<br></br>Please try again!!</div>
-                    <div id="notVerifiedError" className="login-error">This account has not been verified!<br></br>Please check your email!!</div>
-                    <div id="usernameError" className="login-error">Username already in use!<br></br>Please try another!!</div>
-                    <div id="emailError" className="login-error">Email already used!<br></br>Please try another!!</div>
+                    <div id="error" className="login-error">Incorrect username or password<br />Please try again!!</div>
+                    <div id="notVerifiedError" className="login-error">This account has not been verified!<br />Please check your email!!</div>
+                    <div id="usernameError" className="login-error">Username already in use!<br />Please try another!!</div>
+                    <div id="emailError" className="login-error">Email already used!<br />Please try another!!</div>
                     <a href="/forgotPass" className="forgot-password">{isLogin ? "Forgot Password?" : ""}</a>
-
+    
                     {/* Username Criteria */}
                     <div id="explanationUser" style={{ display: 'none' }}>
                         { !isLogin && (
@@ -259,7 +291,7 @@ function LoginPage(){
                                 <p id="userUnd" className="opt">Underscores</p>
                                 <p id="userHyp" className="opt">Hyphens</p>
                             </>
-                        )}    
+                        )}
                     </div>
                     {/* Password Criteria */}
                     <div id="explanation" style={{ display: 'none' }}>
@@ -271,13 +303,13 @@ function LoginPage(){
                                 <p id="passNum" className="invalid">At least one number*</p>
                                 <p id="passSpec" className="invalid">At least one special character*</p>
                             </>
-                        )}   
+                        )}
                     </div>
                 </div>
                 {!isLogin && <RegisterValidation isLogin={isLogin} />}
             </div>
         </div>
     );
-}
+}    
 
 export default LoginPage;
