@@ -118,14 +118,17 @@ router.get('/userWineRating', async (req, res) => {
             { $project: { 
                 _id: 0,
                 rating: "$Ratings.Rating", 
+                comment: "$Ratings.Comment",
                 index: 1 // Include the index field
             }}
         ]).toArray();
 
         if (result.length > 0) {
             const userRating = result[0].rating;
+            const comment = result[0].comment;
             const index = result[0].index;
-            res.status(200).json({ userRating, index, message: "User's rating and index have been retrieved." });
+
+            res.status(200).json({ userRating, comment, index, message: "User's rating, comment, and index have been retrieved." });
         } else {
             res.status(404).json({ message: "Rating for the specified user could not be found." });
         }
@@ -133,6 +136,7 @@ router.get('/userWineRating', async (req, res) => {
         res.status(500).json({ message: "An error occurred while retrieving the rating.", error: error.message });
     }
 });
+
 
 //Averages the total ratings users have given for a Wine
 router.get('/wineRatings', async(req, res) => {
