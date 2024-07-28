@@ -158,7 +158,7 @@ router.post('/getUsername', async (req, res) => {
     const db = getClient().db('AlcoholDatabase');
     const { userId } = req.body;
 
-    const result = await db.collection('Users').findOne({ _id: userId });
+    const result = await db.collection('Users').findOne({ UserId: userId });
 
     if (result) {
         res.status(200).json({ Username: result.Username });
