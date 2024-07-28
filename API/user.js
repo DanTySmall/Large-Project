@@ -181,4 +181,35 @@ router.post('/getPassword', async (req, res) => {
     }
 });
 
+// Change Username
+router.post('/changeUsername', async (req, res) => {
+    const db = getClient().db('AlcoholDatabase');
+    const { userId, newUsername } = req.body;
+
+    const result = await db.collection('Users').findOneAndUpdate(
+        { UserId: userId },
+        { $set: { Username: newUsername } },
+        { new: true }
+    );
+
+    if (result) {
+        res.status(200).json({ message: 'Username updated successfully' });
+    } else {
+        res.status(404).json({ error: 'User not found' });
+    }
+});
+
+// Delete Account
+router.post('/deleteAccount', async (req, res) => {
+    const db = getClient().db('AlcoholDatabase');
+    const { userId } = req.body;
+
+    const result = await db.collection('Users').findOneAndDelete({ UserId: userId });
+
+    if (result) {
+        res.status(200).json({ message: 'Account deleted successfully' });
+    } else {
+        res.status(404).json({ error: 'User not found' });
+    }
+});
 module.exports = router;
