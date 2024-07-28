@@ -212,4 +212,31 @@ router.post('/deleteAccount', async (req, res) => {
         res.status(404).json({ error: 'User not found' });
     }
 });
+
+// New Change Password API call to change directly though the app
+router.post('/changePassword', async (req, res) => {
+    const db = getClient().db('AlcoholDatabase');
+    const { userId, newPassword, confirmPassword } = req.body;
+
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/;
+
+    if (!passwordRegex.test(newPassword)) {
+        return res.status(400).json({ error: 'New Password does not meet the criteria.' });
+    }
+
+    if (newPassword === confirmPassword) {
+        const result = await db.collection('Users').updateOne(
+            { UserId: userId },
+            { $set: { Password: newPassword } }
+        );
+        if (result.modifiedCount > 0) {
+            res.status(200).json({ Message: 'User has successfully changed their password' });
+        } else {
+            res.status(400).json({ error: 'Error changing password' });
+        }
+    } else {
+        res.status(401).json({ error: 'Passwords do not match' });
+    }
+});
+
 module.exports = router;
