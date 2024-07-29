@@ -53,4 +53,4 @@ async function registerController(req, res, next){
     var ret = {user, Message:"User successfully registered. Verification email has been sent."}
     res.status(201).json(ret)
 }
-module.exports = {registerController};
+module.exports = registerController;

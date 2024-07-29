@@ -34,4 +34,4 @@ async function getBeerComments(req, res){
     }
 }
 
-module.exports = {getBeerComments};
+module.exports = getBeerComments;

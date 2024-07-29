@@ -26,4 +26,4 @@ async function loginController(req, res, next){
     }).status(200).json(ret)
 }
 
-module.exports = {loginController};
+module.exports = loginController;

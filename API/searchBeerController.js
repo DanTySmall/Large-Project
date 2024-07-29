@@ -33,4 +33,4 @@ async function searchBeer(req, res){
     }
 }
 
-module.exports = {searchBeer};
+module.exports = searchBeer;
