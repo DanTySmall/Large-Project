@@ -1,5 +1,5 @@
-const {getClient} = require('../../database');
-const {randString, sendMail} = require('../../emailUtils')
+const {getClient} = require('../database');
+const {randString, sendMail} = require('../emailUtils')
 
 async function registerController(req, res, next){
     const db = getClient().db('AlcoholDatabase')

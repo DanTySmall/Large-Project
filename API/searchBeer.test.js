@@ -1,4 +1,4 @@
-const { searchBeer } = require('./Controllers/searchBeerController'); // Adjust the path if needed
+const { searchBeer } = require('./searchBeerController'); // Adjust the path if needed
 const { getClient } = require('../database');
 
 jest.mock('../database', () => ({

@@ -1,7 +1,7 @@
 const express = require('express');
 const {getClient} = require('../database');
-const { searchBeerController } = require('./Controllers/searchBeerController');
-const { getBeerCommentsController } = require('./Controllers/getBeerCommentsController');
+const { searchBeerController } = require('./searchBeerController');
+const { getBeerCommentsController } = require('./getBeerCommentsController');
 const ObjectId = require('mongodb').ObjectId;
 const router = express.Router();
 

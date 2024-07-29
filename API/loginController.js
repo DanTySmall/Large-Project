@@ -1,5 +1,5 @@
-const {getClient} = require('../../database');
-const {generateToken} = require('../../jwtUtils')
+const {getClient} = require('../database');
+const {generateToken} = require('../jwtUtils')
 
 async function loginController(req, res, next){
     const db = getClient().db('AlcoholDatabase')

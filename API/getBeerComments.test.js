@@ -1,4 +1,4 @@
-const { getBeerComments } = require('./Controllers/getBeerCommentsController');
+const { getBeerComments } = require('./getBeerCommentsController');
 const { getClient } = require('../database');
 const { ObjectId } = require('mongodb'); // Make sure this matches how you're importing ObjectId
 

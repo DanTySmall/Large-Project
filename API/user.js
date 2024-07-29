@@ -1,5 +1,5 @@
-const {registerController} = require ('./Controllers/registerController');
-const {loginController} = require ('./Controllers/loginController');
+const {registerController} = require ('./registerController');
+const {loginController} = require ('./loginController');
 const express = require('express');
 const {getClient} = require('../database');
 const {generateToken} = require('../jwtUtils')

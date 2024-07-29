@@ -1,4 +1,4 @@
-const { loginController } = require('./Controllers/loginController');
+const { loginController } = require('./loginController');
 const { getClient } = require('../database');
 
 // Mock database client and utilities
