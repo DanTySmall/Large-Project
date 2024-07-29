@@ -9,6 +9,7 @@ import AboutUsPage from './pages/AboutUsPage.js'
 import VerifyEmailPage from './pages/VerifyEmailPage.js';
 import ChangePasswordPage from './pages/ChangePasswordPage.js';
 import ForgotPassPage from './pages/ForgotPassPage.js';
+import SettingsPage from './pages/SettingsPage.js';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/verify/:uniqueString" element={<VerifyEmailPage /> }></Route>
         <Route path="/changePassword/:uniqueString" element={<ChangePasswordPage /> }></Route>
         <Route path="/forgotPass" element={<ForgotPassPage /> }></Route>
+        <Route path="/settings" element={<SettingsPage /> }></Route>
       </Routes>
     </BrowserRouter>
   );

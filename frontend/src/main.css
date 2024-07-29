@@ -75,6 +75,38 @@
     margin-right: 5px;
   }
 
+  .settings-icon {
+    margin-right: 5px;
+  }
+
+  .settings-header{
+    display: flex;
+    height: 56px;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    background-color: rgba(197, 174, 26, 0.31);
+  }
+
+  .settings-header > div {
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
+    justify-content: inherit;
+  }
+
+  .settings-menu-button{
+    background: none;
+    color: white;
+    cursor: pointer;
+    padding-right: 75px;
+  }
+  
+  .settings-menu-button:hover{
+    text-decoration: underline;
+    color: #b01e4c;
+  }
+
   .logout-icon {
     margin-right: 5px;
   }
