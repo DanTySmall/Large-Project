@@ -986,3 +986,83 @@ input:checked + .slider:before {
   cursor: pointer;
   color: #a0522d;
 }
+
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.edit-icon {
+  position: absolute;
+  right: 20px;
+  padding-top: 10px;
+  cursor: pointer;
+}
+
+.pass-edit-icon {
+  position: absolute;
+  right: -20px;
+  padding-top: 10px;
+  cursor: pointer;
+}
+
+.password-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.password-input {
+  flex: 1;
+  padding-right: 40px; /* To accommodate the view icon */
+  width: 80%;
+}
+
+.settings-input-box {
+  width: 95%;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.settings-toggle-password-btn {
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #a0522d;
+}
+
+.settings-toggle-newpassword-btn {
+  position: absolute;
+  right: 10px;
+  top: 69%;
+  transform: translateY(-50%);
+  height: 64%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #a0522d;
+}
+
+.delete-account-container {
+  margin-top: 20px;
+  margin-bottom: -20px;
+  text-align: center;
+}
+
+.delete-account-btn {
+  background: none;
+  border: none;
+  color: red;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 16px;
+}
