@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import LoginHeader from '../components/LoginHeader';
 import '../main.css';
 import RegisterValidation from '../components/RegisterValidation';
@@ -25,16 +25,33 @@ function LoginPage(){
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [isLogin, setIsLogin] = useState(true);
-    const [lastLoginAttempt, setLastLoginAttempt] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
+    const [prevLoginAttempt, setPrevLoginAttempt] = useState([]);
 
     const formData = isLogin ? { "Username": username, "Password": password } : { "FirstName": firstName, "LastName": lastName, "Username": username, "Password": password, "Email": email, "Phone": phone };
+
+    useEffect(() => {
+        const errorElement = document.getElementById('error');
+        const missFielderrorElement = document.getElementById('miss-field-error');
+        const notVerifiedError = document.getElementById('notVerifiedError');
+        missFielderrorElement.style.display = 'none';
+        errorElement.style.display = 'none';
+        notVerifiedError.style.display = 'none';
+    }, [username]);
+
+    useEffect(() => {
+        const errorElement = document.getElementById('error');
+        const missFielderrorElement = document.getElementById('miss-field-error');
+        const notVerifiedError = document.getElementById('notVerifiedError');
+        missFielderrorElement.style.display = 'none';
+        errorElement.style.display = 'none';
+        notVerifiedError.style.display = 'none';
+    }, [password]);
 
     const validateForm = () => {
         if (isLogin) {
             if (!username || !password) {
                 setErrorMessage('All fields must be filled');
-                setLastLoginAttempt(true);
                 return false;
             }
         } else {
@@ -49,9 +66,12 @@ function LoginPage(){
 
     async function loginButtonHandler(event){
         event.preventDefault(); // Prevent form from submitting
+        console.log("Current User/Pass: ", username, " + ", password);
+        setPrevLoginAttempt([username, password]);
         const errorElement = document.getElementById('error');
         const missFielderrorElement = document.getElementById('miss-field-error');
         const notVerifiedError = document.getElementById('notVerifiedError');
+        console.log(validateForm());
 
         if (!validateForm()) {
             missFielderrorElement.style.display = 'block';
@@ -61,19 +81,11 @@ function LoginPage(){
             missFielderrorElement.style.display = 'none';
         }
 
-        if (!lastLoginAttempt) {
-            errorElement.style.display = 'block';
-            missFielderrorElement.style.display = 'none';
-            return;
-        } else {
-            errorElement.style.display = 'none';
-        }
-
         try{
             //const resp = await axios.post('http://localhost:5000/api/login', {
             const resp = await axios.post(buildPath('api/login'), {
-                Username: formData.Username,
-                Password: formData.Password
+                Username: username,
+                Password: password
             }, {
                 headers: {
                     'Content-Type': 'application/json'
@@ -88,7 +100,6 @@ function LoginPage(){
             localStorage.setItem('userID', userId);
 
             window.location.href = '/homepage';
-            setLastLoginAttempt(true);
         }
         catch(error){
             if(error.response.status === 401){
@@ -98,7 +109,6 @@ function LoginPage(){
                 missFielderrorElement.style.display = 'none';
             }else if(error.response.status === 404){
                 console.log("Login failed...");
-                setLastLoginAttempt(false);
                 errorElement.style.display = 'block';
                 missFielderrorElement.style.display = 'none';
                 notVerifiedError.style.display = 'none';
@@ -122,12 +132,12 @@ function LoginPage(){
         try{
             //const resp = await axios.post('http://localhost:5000/api/register', {
             const resp = await axios.post(buildPath('api/register'), {
-            FirstName: formData.FirstName,
-            LastName: formData.LastName, 
-            Email: formData.Email, 
-            Phone: formData.Phone,
-            Username: formData.Username,
-            Password: formData.Password
+            FirstName: firstName,
+            LastName: lastName,
+            Email: email,
+            Phone: phone,
+            Username: username,
+            Password: password
             }, {
                 headers: {
                     'Content-Type': 'application/json'
@@ -171,7 +181,6 @@ function LoginPage(){
     const handleToggle = () => {
         setIsLogin((prevIsLogin) => !prevIsLogin);
         setErrorMessage(''); 
-        setLastLoginAttempt(true); 
         document.getElementById('error').style.display = 'none';
         
     };
@@ -229,7 +238,7 @@ function LoginPage(){
                             </>
                         )}
                         { isLogin && (
-                            <>                            
+                            <>
                                 <div className="label">Username</div>
                                 <input className="input-box" type="text" id="username" name="username" value={username} onChange={(e) => setUsername(e.target.value)} required pattern="(?=.*[a-zA-Z])[a-zA-Z0-9-_]{3,18}$"/>
                                 <div className="label">Password</div>
@@ -271,7 +280,7 @@ function LoginPage(){
                                 <p id="passNum" className="invalid">At least one number*</p>
                                 <p id="passSpec" className="invalid">At least one special character*</p>
                             </>
-                        )}   
+                        )}
                     </div>
                 </div>
                 {!isLogin && <RegisterValidation isLogin={isLogin} />}

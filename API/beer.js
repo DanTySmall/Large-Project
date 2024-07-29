@@ -1,38 +1,12 @@
 const express = require('express');
 const {getClient} = require('../database');
+const { searchBeerController } = require('./Controllers/searchBeerController');
+const { getBeerCommentsController } = require('./Controllers/getBeerCommentsController');
 const ObjectId = require('mongodb').ObjectId;
 const router = express.Router();
 
 //Beer Partial-Match Search - Users can use multiple parameters to find their drinks
-router.post('/searchBeer', async(req, res) => {
-    const db = getClient().db('AlcoholDatabase')
-    const {Name, Company, Style, Origin} = req.body
-
-    let filter = {}
-    if(Name){
-        // filter.Name = {$regex: Name, $options: 'i'}
-        const escapedName = Name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        filter.Name = { $regex: escapedName, $options: 'i' };
-    }
-    if(Company){
-        filter.Company = {$regex: Company, $options: 'i'}
-    }
-    if(Style){
-        filter.Style = {$regex: Style, $options: 'i'}
-    }
-    if(Origin){
-        filter.Origin = {$regex: Origin, $options: 'i'}
-    }
-
-    const beer = await db.collection('Beer').find(filter).toArray();
-    
-    if(beer.length > 0){
-        res.status(200).json({beer})
-    }
-    else{
-        res.status(400).json({error:"No beers matched with the criteria"})
-    }
-})
+router.post('/searchBeer', searchBeerController);
 
 //Retrieves all Beers in the database
 router.get('/getAllBeers', async (req, res) => {
@@ -134,35 +108,6 @@ router.get('/beerRatings', async(req, res) => {
     }
 })
 
-router.get('/getBeerComments', async (req, res) => {
-    const db = getClient().db('AlcoholDatabase');
-    const { _id } = req.query; // Use req.query to get the parameter from the query string
-    const BeerId = ObjectId.createFromHexString(_id);
-
-    // const beer = await db.collection('Beer').findOne({ _id: BeerId });
-    const result = await db.collection('Beer').aggregate([
-        { $match: { _id: BeerId } },
-        {
-            $project: {
-                _id: 1,
-                comments: {
-                    $cond: {
-                        if: { $gt: [{ $size: "$Ratings" }, 0] },
-                        then: "$Ratings",
-                        else: []
-                    }
-                }
-            }
-        }
-    ]).toArray();
-
-    if (result.length > 0) {
-        // res.status(200).json({ comments: beer.Ratings });
-        const comments = result[0].comments;
-        res.status(200).json({ comments });
-    } else {
-        res.status(400).json({ message: "Comments could not be retrieved." });
-    }
-});
+router.get('/getBeerComments', getBeerCommentsController);
 
 module.exports = router
