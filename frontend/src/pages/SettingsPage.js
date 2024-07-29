@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import '../main.css';
 import axios from 'axios';
 import { UserContext } from '../components/userProvider.js';
@@ -27,6 +27,52 @@ const SettingsPage = () => {
     const [isUsernameEditable, setIsUsernameEditable] = useState(false);
     const [isPasswordEditable, setIsPasswordEditable] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+
+    useEffect(() => {
+        fetchUsername();
+        fetchPassword();
+    }, []);
+
+    const fetchUsername = async () => {
+        alert("User ID: " + userID);
+        try {
+            const response = await axios.post(buildPath('api/getUsername'), {
+                userId: userID,
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.status === 200) {
+                setUsername(response.data.Username);
+            } else {
+                alert('Error: ' + response.data.error);
+            }
+        } catch (error) {
+            alert('Error: ' + (error.response ? error.response.data.error : error.message));
+        }
+    };
+
+    const fetchPassword = async () => {
+        try {
+            const response = await axios.post(buildPath('api/getPassword'), {
+                Username: username,
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.status === 200) {
+                setPassword(response.data.Password);
+            } else {
+                alert('Error: ' + response.data.error);
+            }
+        } catch (error) {
+            alert('Error: ' + (error.response ? error.response.data.error : error.message));
+        }
+    };
 
     const togglePasswordVisibility = () => {
         setShowPassword(prevShowPassword => !prevShowPassword);
