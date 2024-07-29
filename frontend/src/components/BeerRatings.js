@@ -23,10 +23,12 @@ const BeerRatings = ({beerToDisplay, switchComp}) => {
     const [averageRating, setAverageRating] = useState(0);
     const { userID } = useContext(UserContext);
     const [comments, setComments] = useState([]);
+    const [flag, setFlag] = useState(0);//Used to check if user already created a comment.
 
     useEffect(() => {
         getAverageRating(beerToDisplay);
         getComments(beerToDisplay);
+        getUserRating(beerToDisplay);
     }, [beerToDisplay]);
 
     const scrollLeft = () => {
@@ -52,6 +54,12 @@ const BeerRatings = ({beerToDisplay, switchComp}) => {
     };
 
     async function handleComment() {
+        if (flag === 1) {
+            const confirmSubmit = window.confirm("Would you like to overwrite your existing comment?");
+            if (!confirmSubmit) {
+                return;
+            }
+        }
         try {
             const response = await axios.post(buildPath('api/rateBeer'), {
                 _id: beerToDisplay._id,
@@ -63,10 +71,30 @@ const BeerRatings = ({beerToDisplay, switchComp}) => {
             setRating(0);
             getAverageRating(beerToDisplay);
             getComments(beerToDisplay)
+            getUserRating(beerToDisplay)
+            setFlag(1)
+            console.log(1)
         } catch (error) {
             console.error('Error submitting rating:', error);
         }
     }
+
+    async function getUserRating(beer) {
+        try {
+            const response = await axios.get(buildPath('api/userBeerRating'), {
+                params: { UserId: userID, _id: beer._id }
+            });
+            setRating(response.data.userRating);
+            setCurrentIndex(response.data.index);
+            setFlag(1)
+            console.log(flag)
+        } catch (error) {
+            setFlag(0)
+            console.log(flag)
+            console.error('User Rating does not exist', error);
+        }
+    }
+
 
     async function getAverageRating(beer) {
         try {

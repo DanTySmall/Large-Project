@@ -927,3 +927,30 @@ input:checked + .slider:before {
   cursor: pointer;
   color: red;
 }
+
+.password-input-wrapper {
+  position: relative;
+}
+
+.toggle-password-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #a0522d;
+}
+.toggle-newpassword-btn {
+  position: absolute;
+  right: 10px;
+  top: 69%;
+  transform: translateY(-50%);
+  height: 64%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #a0522d;
+}

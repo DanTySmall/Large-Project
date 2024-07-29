@@ -22,6 +22,7 @@ const ChangePasswordPage = () =>{
     const [newPassword, setNewPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
+    const [showNewPassword, setShowNewPassword] = useState(false);
 
     useEffect(() => {
             const passform = document.getElementById("new-password");
@@ -106,6 +107,10 @@ const ChangePasswordPage = () =>{
 
     }
 
+    const togglePasswordVisibility = () => {
+        setShowNewPassword(prevShowPassword => !prevShowPassword);
+    };
+
     return(
         <div className="login-page">
             <div className="loginContent">
@@ -116,8 +121,13 @@ const ChangePasswordPage = () =>{
                 <div className="login-box">
                     <div class = "input-form">
                         <div class="reset-message">Don't worry, it happens to the best of us! We got you!</div>
+                        <div className="password-input-wrapper">
                         <div className="label">New Password</div>
-                        <input className="input-box" type="password" id="new-password" name="new-password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required />
+                            <input className="input-box" type={showNewPassword ? "text" : "password"} id="new-password" name="new-password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required />
+                            <button type="button" className="toggle-newpassword-btn" onClick={togglePasswordVisibility}>
+                                        {showNewPassword ? "Hide" : "Show"}
+                            </button>
+                        </div>
                         <div className="label">Confirm Password</div>
                         <input className="input-box" type="password" id="confirm-password" name="confirm-password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
                         <button type="button" onClick={handleSubmit} className="login-button">Reset Password</button>
@@ -133,6 +143,7 @@ const ChangePasswordPage = () =>{
                         <p id="passNum" className="invalid">At least one number*</p>
                         <p id="passSpec" className="invalid">At least one special character*</p>
                     </>
+
                     }   
                     </div>
                 </div>

@@ -104,6 +104,40 @@ router.post('/rateWine', async(req, res) => {
     }
 })
 
+// Gets user's rating for a specific Wine
+router.get('/userWineRating', async (req, res) => {
+    const db = getClient().db('AlcoholDatabase');
+    const { UserId, _id } = req.query;
+    const WineId = ObjectId.createFromHexString(_id);
+
+    try {
+        const result = await db.collection('Wine').aggregate([
+            { $match: { _id: WineId } },
+            { $unwind: { path: "$Ratings", includeArrayIndex: "index" } },
+            { $match: { "Ratings.UserId": UserId } }, // Match the specific UserId
+            { $project: { 
+                _id: 0,
+                rating: "$Ratings.Rating", 
+                comment: "$Ratings.Comment",
+                index: 1 // Include the index field
+            }}
+        ]).toArray();
+
+        if (result.length > 0) {
+            const userRating = result[0].rating;
+            const comment = result[0].comment;
+            const index = result[0].index;
+
+            res.status(200).json({ userRating, comment, index, message: "User's rating, comment, and index have been retrieved." });
+        } else {
+            res.status(404).json({ message: "Rating for the specified user could not be found." });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "An error occurred while retrieving the rating.", error: error.message });
+    }
+});
+
+
 //Averages the total ratings users have given for a Wine
 router.get('/wineRatings', async(req, res) => {
     const db = getClient().db('AlcoholDatabase')

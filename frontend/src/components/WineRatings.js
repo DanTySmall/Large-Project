@@ -23,10 +23,12 @@ const WineRatings = ({wineToDisplay, switchComp}) => {
     const [averageRating, setAverageRating] = useState(0);
     const { userID } = useContext(UserContext);
     const [comments, setComments] = useState([]);
+    const [flag, setFlag] = useState(0);//Used to check if user already created a comment.
 
     useEffect(() => {
         getAverageRating(wineToDisplay);
         getComments(wineToDisplay);
+        getUserRating(wineToDisplay);
     }, [wineToDisplay]);
 
     const scrollLeft = () => {
@@ -52,6 +54,12 @@ const WineRatings = ({wineToDisplay, switchComp}) => {
     };
 
     async function handleComment() {
+        if (flag === 1) {
+            const confirmSubmit = window.confirm("Would you like to overwrite your existing comment?");
+            if (!confirmSubmit) {
+                return;
+            }
+        }
         try {
             const response = await axios.post(buildPath('api/rateWine'), {
                 _id: wineToDisplay._id,
@@ -64,8 +72,26 @@ const WineRatings = ({wineToDisplay, switchComp}) => {
             setRating(0);
             getAverageRating(wineToDisplay);
             getComments(wineToDisplay);
+            getUserRating(wineToDisplay)
+            setFlag(1)
         } catch (error) {
             console.error('Error submitting rating:', error);
+        }
+    }
+
+    async function getUserRating(wine) {
+        try {
+            const response = await axios.get(buildPath('api/userWineRating'), {
+                params: { UserId: userID, _id: wine._id }
+            });
+            setRating(response.data.userRating);
+            setCurrentIndex(response.data.index);
+            setFlag(1)
+            console.log(flag)
+        } catch (error) {
+            setFlag(0)
+            console.log(flag)
+            console.error('User Rating does not exist', error);
         }
     }
 
