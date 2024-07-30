@@ -300,6 +300,7 @@ const SettingsPage = () => {
                                         <button className="cancel-username-btn" onClick={() => {
                                             setIsPasswordEditable(false);
                                             setPassword(originalPassword);
+                                            setShowPassword(false);
                                             setConfirmPassword('');
                                         }}>Cancel</button>
                                     </div>
