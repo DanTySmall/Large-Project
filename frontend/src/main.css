@@ -1045,7 +1045,7 @@ input:checked + .slider:before {
   right: 30px;
   top: 23%;
   transform: translateY(-50%);
-  height: 100%;
+  height: 50%;
   background: none;
   border: none;
   cursor: pointer;
