@@ -20,8 +20,8 @@ const sendMail = (Email, uniqueString, flag) => {
         port: 465,
         secure: true,
         auth: {
-            user: 'Menorca.Allen@gmail.com', // Use your gmail username
-            pass: 'ccjy gcdj ikkp oasa' // Use an App Password, not your gmail password 
+            user: '', // Use your gmail username
+            pass: '' // Use an App Password, not your gmail password 
                       //(Manage Your Google Account -> Security -> 2-Step Verification -> App Passwords)
         }
     })
