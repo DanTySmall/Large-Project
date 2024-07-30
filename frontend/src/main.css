@@ -1042,10 +1042,10 @@ input:checked + .slider:before {
 
 .settings-toggle-newpassword-btn {
   position: absolute;
-  right: 10px;
-  top: 69%;
+  right: 30px;
+  top: 23%;
   transform: translateY(-50%);
-  height: 64%;
+  height: 100%;
   background: none;
   border: none;
   cursor: pointer;
@@ -1065,4 +1065,32 @@ input:checked + .slider:before {
   text-decoration: underline;
   cursor: pointer;
   font-size: 16px;
+}
+
+.confirm-username-btn {
+  width: 45%;
+  padding: 12px;
+  margin-top: 10px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 8px;
+  background-color: rgb(44, 102, 44);
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background-color 0.3s;
+}
+
+.cancel-username-btn {
+  width: 45%;
+  padding: 12px;
+  margin-top: 10px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 8px;
+  background-color: rgb(221, 22, 22);
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background-color 0.3s;
 }

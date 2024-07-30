@@ -23,29 +23,56 @@ const SettingsPage = () => {
     const { userID } = useContext(UserContext);
     const [email, setEmail] = useState('');  
     const [username, setUsername] = useState('');
+    const [originalUsername, setOriginalUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [originalPassword, setOriginalPassword] = useState('');
     const [isUsernameEditable, setIsUsernameEditable] = useState(false);
     const [isPasswordEditable, setIsPasswordEditable] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [isManualEdit, setIsManualEdit] = useState(false);
+    const [usernameCriteria, setUsernameCriteria] = useState({
+        length: false,
+        letter: false,
+        number: true,
+        underscore: true,
+        hyphen: true,
+    });
+    const [passwordCriteria, setPasswordCriteria] = useState({
+        length: false,
+        letter: false,
+        number: false,
+        special: false,
+    });
 
     useEffect(() => {
-        fetchUsername();
-        fetchPassword();
-    }, []);
+        if (userID) {
+            fetchUsernameAndEmail();
+        }
+    }, [userID]);
 
-    const fetchUsername = async () => {
-        alert("User ID: " + userID);
+    useEffect(() => {
+        if (username && !isManualEdit) {
+            fetchPassword();
+        }
+    }, [username]);
+
+    const fetchUsernameAndEmail = async () => {
         try {
             const response = await axios.post(buildPath('api/getUsername'), {
-                userId: userID,
+                UserId: parseInt(userID),
             }, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
 
+            
             if (response.status === 200) {
                 setUsername(response.data.Username);
+                setOriginalUsername(response.data.Username);
+                setEmail(response.data.Email);
             } else {
                 alert('Error: ' + response.data.error);
             }
@@ -66,6 +93,7 @@ const SettingsPage = () => {
 
             if (response.status === 200) {
                 setPassword(response.data.Password);
+                setOriginalPassword(response.data.Password);
             } else {
                 alert('Error: ' + response.data.error);
             }
@@ -77,13 +105,15 @@ const SettingsPage = () => {
     const togglePasswordVisibility = () => {
         setShowPassword(prevShowPassword => !prevShowPassword);
     };
+    const toggleConfirmPasswordVisibility = () => {
+        setShowConfirmPassword(prevShowConfirmPassword => !prevShowConfirmPassword);
+    };
 
-    const handleDeleteAccount = async () => {
-        alert("User ID: " + userID);
-        const confirmDeletion = window.confirm("Are you sure you want to delete your account? This action cannot be undone!");
-        if (confirmDeletion) {
-            const response = await axios.post(buildPath('api/deleteAccount'), {
-                userId: userID,
+    const handleSaveUsername = async () => {
+        try {
+            const response = await axios.post(buildPath('api/changeUsername'), {
+                userId: parseInt(userID),
+                newUsername: username
             }, {
                 headers: {
                     'Content-Type': 'application/json'
@@ -91,14 +121,87 @@ const SettingsPage = () => {
             });
 
             if (response.status === 200) {
-                const result = await response.json();
-                alert(result.message);
-                window.location.href = '/login';
+                alert('Username updated successfully');
+                setIsUsernameEditable(false);
+                setIsManualEdit(false);
+                setOriginalUsername(username);
+            } else {
+                alert('Error: ' + response.data.error);
+            }
+        } catch (error) {
+            alert('Error: ' + (error.response ? error.response.data.error : error.message));
+        }
+    };
+
+    const handleSavePassword = async () => {
+        if (password !== confirmPassword) {
+            alert('Passwords do not match');
+            return;
+        }
+
+        try {
+            const response = await axios.post(buildPath('api/changePassword'), {
+                userId: parseInt(userID),
+                newPassword: password,
+                confirmPassword: confirmPassword
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.status === 200) {
+                alert('Password updated successfully');
+                setIsPasswordEditable(false);
+                setOriginalPassword(password);
+                setShowPassword(false);
+            } else {
+                alert('Error: ' + response.data.error);
+            }
+        } catch (error) {
+            alert('Error: ' + (error.response ? error.response.data.error : error.message));
+        }
+    };
+
+    const handleDeleteAccount = async () => {
+        const confirmDeletion = window.confirm("Are you sure you want to delete your account? This action cannot be undone!");
+        if (confirmDeletion) {
+            const response = await axios.post(buildPath('api/deleteAccount'), {
+                userId: parseInt(userID),
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.status === 200) {
+                // const result = await response.json();
+                alert("We are sad to see you go! Drink Responsibly!");
+                window.location.href = '/';
             } else {
                 const error = await response.json();
                 alert(`Error: ${error.error}`);
             }
         }
+    };
+
+    const validateUsername = (username) => {
+        setUsernameCriteria({
+            length: username.length >= 3 && username.length <= 18,
+            letter: /[a-zA-Z]/.test(username),
+            number: true, // Optional
+            underscore: true, // Optional
+            hyphen: true, // Optional
+        });
+    };
+
+    const validatePassword = (password) => {
+        setPasswordCriteria({
+            length: password.length >= 8 && password.length <= 32,
+            letter: /[a-zA-Z]/.test(password),
+            number: /\d/.test(password),
+            special: /[!@#$%^&*]/.test(password),
+        });
     };
 
     return (
@@ -110,6 +213,7 @@ const SettingsPage = () => {
                 </div>
                 <div className={"login-box"}>
                     <div className="input-form">
+
                             <div className="label">Username</div>
                             <input 
                                 className="settings-input-box" 
@@ -117,11 +221,34 @@ const SettingsPage = () => {
                                 id="username" 
                                 name="username" 
                                 value={username} 
-                                onChange={(e) => setUsername(e.target.value)} 
+                                onChange={(e) => {
+                                    setUsername(e.target.value);
+                                    setIsManualEdit(true);
+                                    validateUsername(e.target.value);
+                                }} 
                                 disabled={!isUsernameEditable} 
                                 required 
+                                onFocus={() => document.getElementById('explanationUser').style.display = 'block'}
+                                onBlur={() => document.getElementById('explanationUser').style.display = 'none'}
                             />
-                            <FontAwesomeIcon icon={faPen} onClick={() => setIsUsernameEditable(!isUsernameEditable)} className="edit-icon" />
+                            <FontAwesomeIcon icon={faPen} onClick={() => { setIsUsernameEditable(true); setIsManualEdit(false); }} className="edit-icon" />
+                            {isUsernameEditable && (
+                                <div className="edit-buttons">
+                                    <button className="confirm-username-btn" onClick={handleSaveUsername}>Save</button>
+                                    <button className="cancel-username-btn" onClick={() => { setIsUsernameEditable(false); setUsername(originalUsername); }}>Cancel</button>
+                                </div>
+                            )}
+                            {/* Username Criteria */}
+                            <div id="explanationUser" style={{ display: 'none' }}>
+                                <h3>Username must contain the following:</h3>
+                                <p id="userLett" className={usernameCriteria.letter ? "valid" : "invalid"}>At least one letter*</p>
+                                <p id="userLen" className={usernameCriteria.length ? "valid" : "invalid"}>3 to 18 characters*</p>
+                                <h3> Username may contain the following: </h3>
+                                <p id="userNum" className="opt">Numbers</p>
+                                <p id="userUnd" className="opt">Underscores</p>
+                                <p id="userHyp" className="opt">Hyphens</p>
+                            </div>
+
                             <div className="label">Password</div>
                             <div className="password-input-wrapper">
                                 <input
@@ -130,16 +257,54 @@ const SettingsPage = () => {
                                     id="password"
                                     name="password"
                                     value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    onChange={(e) => {
+                                        setPassword(e.target.value);
+                                        validatePassword(e.target.value);
+                                    }}
                                     required
                                     disabled={!isPasswordEditable} 
                                     pattern="(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%^&*]).{8,32}"
+                                    onFocus={() => document.getElementById('explanation').style.display = 'block'}
+                                    onBlur={() => document.getElementById('explanation').style.display = 'none'}
                                 />
                                 <button type="button" className="settings-toggle-password-btn" onClick={togglePasswordVisibility}>
                                     {showPassword ? "Hide" : "Show"}
                                 </button>
-                                <FontAwesomeIcon icon={faPen} onClick={() => setIsPasswordEditable(!isPasswordEditable)} className="pass-edit-icon" />
+                                <FontAwesomeIcon icon={faPen} onClick={() => { setIsPasswordEditable(true); setIsManualEdit(false); }} className="pass-edit-icon" />
                             </div>
+                            {/* Password Criteria */}
+                            <div id="explanation" style={{ display: 'none' }}>
+                                <h3>Password must contain the following:</h3>
+                                <p id="passLen" className={passwordCriteria.length ? "valid" : "invalid"}>8 to 32 characters*</p>
+                                <p id="passLett" className={passwordCriteria.letter ? "valid" : "invalid"}>At least one letter*</p>
+                                <p id="passNum" className={passwordCriteria.number ? "valid" : "invalid"}>At least one number*</p>
+                                <p id="passSpec" className={passwordCriteria.special ? "valid" : "invalid"}>At least one special character*</p>
+                            </div>
+                            {isPasswordEditable && (
+                                <div className="password-input-wrapper">
+                                    <input
+                                        className="settings-input-box"
+                                        type={showConfirmPassword  ? "text" : "password"}
+                                        id="confirm-password"
+                                        name="confirm-password"
+                                        placeholder="Confirm Password"
+                                        value={confirmPassword}
+                                        onChange={(e) => setConfirmPassword(e.target.value)}
+                                        required
+                                    />
+                                    <button type="button" className="settings-toggle-newpassword-btn" onClick={toggleConfirmPasswordVisibility}>
+                                        {showConfirmPassword ? "Hide" : "Show"}
+                                    </button>
+                                    <div className="edit-buttons">
+                                        <button className="confirm-username-btn" onClick={handleSavePassword}>Save</button>
+                                        <button className="cancel-username-btn" onClick={() => {
+                                            setIsPasswordEditable(false);
+                                            setPassword(originalPassword);
+                                            setConfirmPassword('');
+                                        }}>Cancel</button>
+                                    </div>
+                                </div>
+                            )}
 
                             <div className="label">Email</div>
                             <input 

@@ -84,12 +84,12 @@ router.post('/changePassword/:uniqueString', async(req,res) => {
 // Retrieve User Username
 router.post('/getUsername', async (req, res) => {
     const db = getClient().db('AlcoholDatabase');
-    const { userId } = req.body;
+    const { UserId } = req.body;
 
-    const result = await db.collection('Users').findOne({ UserId: userId });
+    const result = await db.collection('Users').findOne({ UserId: UserId });
 
     if (result) {
-        res.status(200).json({ Username: result.Username });
+        res.status(200).json({ Username: result.Username, Email: result.Email });
     } else {
         res.status(404).json({ error: 'User not found' });
     }
